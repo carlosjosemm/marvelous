@@ -1,19 +1,10 @@
-'use client'
-import Footer from "../components/Footer";
-import Header from "../components/Header";
 import styles from '../styles/globals.css'
 
 const layout = ({children}) => {
     return ( 
         <html lang="en">
             <body>
-                <div style={{display: "flex", flexDirection: 'column', minHeight: '100vh'}}>
-                    <Header />
-                    <main style={{flexGrow: '2', minHeight: '70vh'}}>
-                        {children}
-                    </main>
-                    <Footer />
-                </div>
+                {children}
             </body>
         </html>
     );

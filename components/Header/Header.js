@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import Image from 'next/image';
-import logo from '../public/media/img/marvel-logo.png'
+import logo from '../../public/media/img/marvel-logo.png'
 import 'material-icons/iconfont/outlined.css';
 import 'material-icons/iconfont/filled.css';
 import 'material-icons/iconfont/outlined.css';
@@ -24,13 +24,13 @@ const VertDivider = styled.div`
     height: 80%;
     position: relative;
 `
-const Header = ({props}) => {
+const Header = () => {
     return ( 
         <StyledHeader>
             <Image 
                 src={logo} 
                 alt='Marvel logo' 
-                height={57} 
+                height={57}
                 placeholder='blur' 
                 quality={100}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 33vw"

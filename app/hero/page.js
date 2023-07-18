@@ -15,23 +15,36 @@ const HeroPage = ({params}) => {
     const apiBaseURL = 'http://gateway.marvel.com/v1/public/characters'
 
     const handleApi = useCallback(async () => {
-        const heroRes = await axios.get(apiBaseURL, {
-            params: {
-                apikey: process.env.NEXT_PUBLIC_API_PUBLICKEY,
-                limit: '1',
-                offset: `${200 * Math.random()}`,
-            }
-        });
-        setHeroData(heroRes.data.data.results[0]);
-        const comicsRes = await axios.get(`${apiBaseURL}/${heroRes.data.data.results[0].id}/comics`, {
-                            params: {
-                                apikey: process.env.NEXT_PUBLIC_API_PUBLICKEY,
-                                limit: '10',
-                                orderBy: '-onsaleDate',
-                            }
-                        })
-        setComicsData(comicsRes.data.data.results);
-        setLoading(false)
+        try {
+            // fetching the hero
+            const heroRes = await axios.get(
+                apiBaseURL, 
+                {
+                    params: {
+                        apikey: process.env.NEXT_PUBLIC_API_PUBLICKEY,
+                        limit: '1',
+                        offset: `${200 * Math.random()}`,
+                    }
+                }
+            );
+            setHeroData(heroRes.data.data.results[0]);
+            // fetching its latest comics
+            const comicsRes = await axios.get(
+                `${apiBaseURL}/${heroRes.data.data.results[0].id}/comics`, 
+                {
+                    params: {
+                        apikey: process.env.NEXT_PUBLIC_API_PUBLICKEY,
+                        limit: '10',
+                        orderBy: '-onsaleDate',
+                    }
+                }
+            );
+            setComicsData(comicsRes.data.data.results);
+            // stopping the loading phase
+            setLoading(false)
+        } catch (err) {
+            setError(err);
+        }
     }, [])
 
     useEffect(

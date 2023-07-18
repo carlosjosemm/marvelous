@@ -33,7 +33,7 @@ const HeroPage = ({params}) => {
         setComicsData(comicsRes.data.data.results);
         setLoading(false)
     }, [])
-    
+
     useEffect(
         () => {
             handleApi();
@@ -42,6 +42,9 @@ const HeroPage = ({params}) => {
 
     if (loading) {
         return <h2>Loading Hero...</h2>
+    }
+    if (error) {
+        return error.message
     }
     return ( 
         <HeroContainer>

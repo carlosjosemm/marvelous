@@ -36,7 +36,7 @@ import ComicPreview from "../Comic/ComicPreview";
 
  `
  const HeroContent = ({comicsData, heroName}) => {
-    const finalComicList = comicsData.data.results.slice(0, 9)
+    const finalComicList = comicsData.slice(0, 9)
     
     return ( 
         <HeroContentStyled>

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const StyledComicPreview = styled.div`
+const StyledContentPreview = styled.div`
     display: flex;
     margin: 1ch;
     padding-top: 1ch;
@@ -54,10 +54,10 @@ const ComicPreview = ({comicData}) => {
 
     return (
         <a href={href} target='_blank'>
-        <StyledComicPreview>
+        <StyledContentPreview>
             <img src={thumbnailURL} style={{objectFit: 'contain'}}/>
             <p>{comicData.title}</p>
-        </StyledComicPreview>
+        </StyledContentPreview>
         </a>
      );
 }

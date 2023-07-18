@@ -36,7 +36,8 @@ import ComicPreview from "../Comic/ComicPreview";
 
  `
  const HeroContent = ({comicsData, heroName}) => {
-    const finalComicList = comicsData.slice(0, 9)
+    // limit the visible comics to 10
+    const finalComicList = comicsData.slice(0, 10)
     
     return ( 
         <HeroContentStyled>

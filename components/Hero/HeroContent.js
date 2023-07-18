@@ -44,7 +44,7 @@ import ComicPreview from "../Comic/ComicPreview";
             {finalComicList.length > 0 &&
                 finalComicList.map((comic) => {
                     return (
-                        <ComicPreview comicData={comic} />
+                        <ComicPreview comicData={comic} key={comic.id}/>
                     ) 
                 })
             }

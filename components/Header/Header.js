@@ -27,7 +27,8 @@ const VertDivider = styled.div`
 const Header = () => {
     return ( 
         <StyledHeader>
-            <Image 
+            <Image
+                data-testid="logo" 
                 src={logo} 
                 alt='Marvel logo' 
                 height={57}
@@ -35,11 +36,11 @@ const Header = () => {
                 quality={100}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 33vw"
              />
-            <VertDivider />
-            <span className="material-icons-outlined">search</span>
-            <input />
-            <span className="material-icons-outlined">star_border</span>
-            <VertDivider />
+            <VertDivider data-testid="divider" />
+            <span className="material-icons-outlined" data-testid="searchicon">search</span>
+            <input data-testid="searchinput" />
+            <span className="material-icons-outlined" data-testid="favicon">star_border</span>
+            <VertDivider data-testid="divider2" />
         </StyledHeader>
      );
 }

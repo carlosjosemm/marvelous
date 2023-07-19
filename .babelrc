@@ -6,6 +6,7 @@
             {
                 "ssr": true
             }
-        ]
+        ],
+        ["jotai/babel/plugin-react-refresh"]
     ]
 }

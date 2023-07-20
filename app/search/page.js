@@ -3,10 +3,11 @@ import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useState } from "react";
+import SearchContainer from "../../components/Hero/SearchContainer";
 
 const SearchPage = () => {
     const [loading, setLoading] = useState(true);
-    const [results, setResults] = useState([]);
+    const [content, setContent] = useState(null);
 
     const searchParams = useSearchParams()
 
@@ -43,24 +44,66 @@ const SearchPage = () => {
             unwrappedResults = await Promise.all( results
             );
         };
-        // joining with the corresponding search param...
-        let seachData
-        if (heroParams.length > 0) {
-            seachData = unwrappedResults.map((heroParamRes, index) => {
+        // parsing with the corresponding search param...
+        let searchData
+        
+        if (heroParams.length > 0 && comicParams.length > 0) {
+            searchData = unwrappedResults.map((heroParamRes, heroIndex) => {
+                return {
+                    searchParam: heroParams[heroIndex],
+                    type: 'hero&comic',
+                    results: heroParamRes.map((res, comicIndex) => {
+                        return {
+                            searchParam: comicParams[comicIndex],
+                            results: res
+                        }
+                    })
+                }
+            })
+        } else if (heroParams.length > 0) {
+            searchData = unwrappedResults.map((heroParamRes, index) => {
                 return {
                     searchParam: heroParams[index],
+                    type: 'hero',
                     results: heroParamRes
                 }
             })
         } else {
-            seachData = unwrappedResults.map((comicParamRes, index) => {
+            searchData = unwrappedResults.map((comicParamRes, index) => {
                 return {
                     searchParam: comicParams[index],
+                    type: 'comic',
                     results: comicParamRes
                 }
             })
         }
-        setResults(seachData);
+
+        //flattening the search matrix:
+        let contentRows = []
+        
+        searchData.map( (search) => {
+            if (search.type == 'hero&comic') {
+                search.results.map((heroResult) => {
+                    contentRows.push(
+                        {
+                            searchParams: [search.searchParam, heroResult.searchParam],
+                            results: heroResult.results,
+                        }
+                    )
+                })
+            } else {
+                contentRows.push(
+                    {
+                        searchParams: [search.searchParam],
+                        results: search.results,
+                    }
+                )
+            }
+        })
+
+        setContent(contentRows)
+        setLoading(false);
+
     };
 
     const fetchData = async (heroParam, comicParam) => {
@@ -128,7 +171,7 @@ const SearchPage = () => {
                     params: {
                         apikey: process.env.NEXT_PUBLIC_API_PUBLICKEY,
                         titleStartsWith: comicParam,
-                        limit: 20,
+                        limit: 3,
                         orderBy: '-onsaleDate', // to be improved: let user select the ordering criteria
                     }
                 }
@@ -138,7 +181,7 @@ const SearchPage = () => {
     }
     useEffect(() => {
         getSearchMatrix();
-    }, [])
+    }, [searchParams])
     
     if (loading) {
         return <h1>Loading search results...</h1>

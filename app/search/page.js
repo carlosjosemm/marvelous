@@ -6,49 +6,90 @@ import { useState } from "react";
 
 const SearchPage = () => {
     const [loading, setLoading] = useState(true);
+    const [results, setResults] = useState([]);
+
     const searchParams = useSearchParams()
 
     const getSearchMatrix = async () => {
-        const hero = searchParams.getAll('hero');
-        const comic = searchParams.getAll('comic');
-        let results
-        if (hero.length > 0) {
-            results =  await hero.map( hero => {
-                if (comic.length > 0) {
-                    return comic.map( comic => {
-                        return fetchData(hero, comic)
-                    })
+        const heroParams = searchParams.getAll('hero');
+        const comicParams = searchParams.getAll('comic');
+        let results,
+            unwrappedResults;
+        // case when both params exists
+        if (heroParams.length > 0 && comicParams.length > 0) {
+            results = heroParams.map( hero => {
+                return comicParams.map( comic => {
+                    return fetchData(hero, comic)
+                })
+            })
+            // unwraping all promises 
+            unwrappedResults = await Promise.all(results.map(async result => {
+                return await Promise.all(result)
+            }))
+        // case when only hero params exists
+        } else if(heroParams.length > 0) {
+            results = heroParams.map( hero => {
+                return fetchData(hero, undefined)
+            })
+            // unwraping all promises 
+            unwrappedResults = await Promise.all( results
+            );
+        // case when only comic params exists
+        } else if (comicParams.length > 0) {
+            results = comicParams.map( comic => {
+                return fetchData(undefined, comic)
+            })
+            // unwraping all promises 
+            unwrappedResults = await Promise.all( results
+            );
+        };
+        // joining with the corresponding search param...
+        let seachData
+        if (heroParams.length > 0) {
+            seachData = unwrappedResults.map((heroParamRes, index) => {
+                return {
+                    searchParam: heroParams[index],
+                    results: heroParamRes
+                }
+            })
+        } else {
+            seachData = unwrappedResults.map((comicParamRes, index) => {
+                return {
+                    searchParam: comicParams[index],
+                    results: comicParamRes
                 }
             })
         }
-        // unwraping all promises
-        const searchData = await Promise.all(results.map(async result => {
-            return await Promise.all(result)
-        }))
-        console.log(searchData);
-    }
+        setResults(seachData);
+    };
+
     const fetchData = async (heroParam, comicParam) => {
-        const apiBaseURL = 'http://gateway.marvel.com/v1/public/characters'
+        const heroBaseURL = 'http://gateway.marvel.com/v1/public/characters'
+        const comicBaseURL = 'http://gateway.marvel.com/v1/public/comics'
         // getting all matching heroes
-        const heroRes = await axios.get(
-            apiBaseURL,
-            {
-                params: {
-                    apikey: process.env.NEXT_PUBLIC_API_PUBLICKEY,
-                    nameStartsWith: heroParam,
-                    limit: 10,
-                    orderBy: 'name', // to be improved: let user select the ordering criteria
+        let heroRes,
+            comicRes,
+            matchedHeroes;
+
+        if (heroParam && comicParam) {
+            heroRes = await axios.get(
+                heroBaseURL,
+                {
+                    params: {
+                        apikey: process.env.NEXT_PUBLIC_API_PUBLICKEY,
+                        nameStartsWith: heroParam,
+                        limit: 10,
+                        orderBy: 'name', // to be improved: let user select the ordering criteria
+                    }
                 }
-            }
-        )
-        const matchedHeroes = heroRes.data.data.total > 0 ? heroRes.data.data.results : null; 
-        if (comicParam) {
+            );
+            matchedHeroes = heroRes.data.data.total > 0 ? heroRes.data.data.results : [];
             // getting an array of matched comics by each matched hero
             const comicResArray = await Promise.all(
                 // creating the array of promises (api calls)
                 matchedHeroes.map( (hero) => {
                     return axios.get(
-                        `${apiBaseURL}/${hero.id}/comics`,
+                        `${heroBaseURL}/${hero.id}/comics`,
                         {
                             params: {
                                 apikey: process.env.NEXT_PUBLIC_API_PUBLICKEY,
@@ -66,19 +107,47 @@ const SearchPage = () => {
                 }
             );
             return matchedHeroesAndComics
-        }
-        return matchedHeroes
+        } else if (heroParam) {
+            heroRes = await axios.get(
+                heroBaseURL,
+                {
+                    params: {
+                        apikey: process.env.NEXT_PUBLIC_API_PUBLICKEY,
+                        nameStartsWith: heroParam,
+                        limit: 10,
+                        orderBy: 'name', // to be improved: let user select the ordering criteria
+                    }
+                }
+            );
+            matchedHeroes = heroRes.data.data.total > 0 ? heroRes.data.data.results : [];
+            return matchedHeroes
+        } else if (comicParam) {
+            comicRes = await axios.get(
+                comicBaseURL,
+                {
+                    params: {
+                        apikey: process.env.NEXT_PUBLIC_API_PUBLICKEY,
+                        titleStartsWith: comicParam,
+                        limit: 20,
+                        orderBy: '-onsaleDate', // to be improved: let user select the ordering criteria
+                    }
+                }
+            );
+            return comicRes.data.data.results
+        }    
     }
     useEffect(() => {
         getSearchMatrix();
     }, [])
-
+    
     if (loading) {
         return <h1>Loading search results...</h1>
     }
 
     return (
-        <h1>Search results here...</h1>
+        <>
+        
+        </>
      );
 }
  

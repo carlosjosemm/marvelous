@@ -188,9 +188,7 @@ const SearchPage = () => {
     }
 
     return (
-        <>
-        
-        </>
+        <SearchContainer content={content}/>
      );
 }
  

@@ -14,33 +14,21 @@ const useFetchSearchData = () => {
         const comicParams = searchParams.getAll('comic');
         let results,
             unwrappedResults;
-        // case when both params exists
-        if (heroParams.length > 0 && comicParams.length > 0) {
-            results = heroParams.map( hero => {
-                return comicParams.map( comic => {
-                    return fetchData(hero, comic)
-                })
-            })
-            // unwraping all promises 
-            unwrappedResults = await Promise.all(results.map(async result => {
-                return await Promise.all(result)
-            }))
-        // case when only hero params exists
-        } else if(heroParams.length > 0) {
+        /** FETCHING DATA **/
+        // case when hero param exists
+        if (heroParams.length > 0) {
             results = heroParams.map( hero => {
                 return fetchData(hero, undefined)
             })
             // unwraping all promises 
-            unwrappedResults = await Promise.all( results
-            );
+            unwrappedResults = await Promise.all( results);
         // case when only comic params exists
         } else if (comicParams.length > 0) {
             results = comicParams.map( comic => {
                 return fetchData(undefined, comic)
             })
             // unwraping all promises 
-            unwrappedResults = await Promise.all( results
-            );
+            unwrappedResults = await Promise.all( results);
         };
         // parsing with the corresponding search param...
         let searchData
@@ -50,18 +38,15 @@ const useFetchSearchData = () => {
                 return {
                     searchParam: heroParams[heroIndex],
                     type: 'hero&comic',
-                    results: heroParamRes.map((res, comicIndex) => {
-                        return {
-                            searchParam: comicParams[comicIndex],
-                            results: res
-                        }
-                    })
+                    secondarySearchParams: [...comicParams],
+                    results: heroParamRes
                 }
             })
         } else if (heroParams.length > 0) {
             searchData = unwrappedResults.map((heroParamRes, index) => {
                 return {
                     searchParam: heroParams[index],
+                    secondarySearchParams: undefined,
                     type: 'hero',
                     results: heroParamRes
                 }
@@ -70,38 +55,14 @@ const useFetchSearchData = () => {
             searchData = unwrappedResults.map((comicParamRes, index) => {
                 return {
                     searchParam: comicParams[index],
+                    secondarySearchParams: undefined,
                     type: 'comic',
                     results: comicParamRes
                 }
             })
         }
-
-        //flattening the search matrix:
-        let contentRows = []
-        
-        searchData.map( (search) => {
-            if (search.type == 'hero&comic') {
-                search.results.map((heroResult) => {
-                    contentRows.push(
-                        {
-                            searchParams: [search.searchParam, heroResult.searchParam],
-                            results: heroResult.results,
-                        }
-                    )
-                })
-            } else {
-                contentRows.push(
-                    {
-                        searchParams: [search.searchParam],
-                        results: search.results,
-                    }
-                )
-            }
-        })
-
-        setContent(contentRows)
+        setContent(searchData)
         setLoading(false);
-
     };
 
     const fetchData = async (heroParam, comicParam) => {
@@ -155,7 +116,7 @@ const useFetchSearchData = () => {
                     params: {
                         apikey: process.env.NEXT_PUBLIC_API_PUBLICKEY,
                         nameStartsWith: heroParam,
-                        limit: 10,
+                        limit: 16,
                         orderBy: 'name', // to be improved: let user select the ordering criteria
                     }
                 }

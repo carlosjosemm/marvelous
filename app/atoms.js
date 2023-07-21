@@ -1,6 +1,6 @@
 import { atom } from 'jotai'
 
-export const searchParamsAtom = atom({
+export const secSearchParamsAtom = atom({
     heroes: [],
     comics: [],
 })

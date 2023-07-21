@@ -1,4 +1,7 @@
+import { useState } from "react";
 import { styled } from "styled-components";
+import HeroModal from "./HeroModal";
+import { useCallback } from "react";
 
 const StyledHeroPreview = styled.div`
     margin: 1ch;
@@ -34,11 +37,21 @@ const StyledHeroPreview = styled.div`
     }
     overflow: hidden;
 `
-const ContentPreview = ({contentData, type}) => {
-    console.log(contentData);
-    if (type == 'single') {
+const ContentPreview = ({contentData, secSearchParam}) => {
+    const [showModal, setShowModal] = useState(false);
+
+    const handleClick = useCallback(() => {
+        setShowModal(true)
+    }, [])
+
+    const handleClose = useCallback((ev) => {
+        ev.stopPropagation()
+        setShowModal(false)
+    }, [])
+    if (!secSearchParam) {
         return ( 
-            <a href='' target='_blank'>
+            <a onClick={handleClick} >
+            <HeroModal show={showModal} onClose={handleClose} hero={contentData} />
             <StyledHeroPreview>
                 <img src={`${contentData.thumbnail.path}.${contentData.thumbnail.extension}`} style={{objectFit: 'cover'}}/>
                 <div>
@@ -49,13 +62,14 @@ const ContentPreview = ({contentData, type}) => {
         );
     }
 
-    if (type == 'multiple') {
+    if (secSearchParam.length > 0) {
         return ( 
-            <a href='' target='_blank'>
+            <a onClick={handleClick} >
+            <HeroModal show={showModal} onClose={handleClose} hero={contentData} />
             <StyledHeroPreview>
-                <img src={`${contentData.hero.thumbnail.path}.${contentData.hero.thumbnail.extension}`} style={{objectFit: 'cover'}}/>
+                <img src={`${contentData.thumbnail.path}.${contentData.thumbnail.extension}`} style={{objectFit: 'cover'}}/>
                 <div>
-                    <p>{contentData.hero.name}</p>
+                    <p>{contentData.name}</p>
                 </div>
             </StyledHeroPreview>
             </a>

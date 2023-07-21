@@ -12,15 +12,13 @@ const StyledResultTitle = styled.h3`
     grid-column: span 4;
 `
 const ResultsContainer = ({contentRow}) => {
-    console.log(contentRow)
-    const type = contentRow.searchParams.length > 1 ? 'multiple' : 'single';
     return ( 
         <StyledRowContainer>
-            <StyledResultTitle>Search results for {`${contentRow.searchParams.join(' & ')}`}</StyledResultTitle>
+            <StyledResultTitle>Search results for {`${contentRow.searchParam}`}</StyledResultTitle>
             {
                 contentRow.results.map((result, index) => {
                     return (
-                        <ContentPreview contentData={result} type={type} key={index*1000*Math.random()}/>
+                        <ContentPreview contentData={result} secSearchParam={contentRow.secondarySearchParams} key={index*1000*Math.random()}/>
                     )
                 })
             }

@@ -3,11 +3,14 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useState } from "react";
 import { fetchData } from "../util/fetchData";
+import { secSearchParamsAtom } from "../app/atoms";
+import { useSetAtom } from "jotai";
 
 const useFetchSearchData = () => {
     const [loading, setLoading] = useState(true);
     const [content, setContent] = useState(null);
     const searchParams = useSearchParams()
+    const setSecSearchParams = useSetAtom(secSearchParamsAtom)
 
     const getSearchMatrix = async () => {
         const heroParams = searchParams.getAll('hero');
@@ -62,6 +65,10 @@ const useFetchSearchData = () => {
             })
         }
         setContent(searchData)
+        setSecSearchParams({
+            heroes: heroParams,
+            comics: comicParams,
+        })
         setLoading(false);
     };
         

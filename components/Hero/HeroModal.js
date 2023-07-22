@@ -44,7 +44,6 @@ const ModalHeader = styled.div`
         font-size: 2rem;
     }
 `
-
 const ModalBody = styled.div`
     flex: 1 1 auto;
     user-select: none;
@@ -55,6 +54,27 @@ const ModalBody = styled.div`
     justify-content: flex-start;
     align-items: flex-start;
     overflow: auto;
+    max-width: ${props => props.theme.breakpoints.laptop};
+`
+const ModalItem = styled.div`
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1ch;
+    align-items: center;
+    margin-bottom: 2ch;
+    > img {
+        max-height: 6rem;
+    }
+    h4 {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    p {
+        overflow: auto;
+        max-height: 6rem;
+        word-wrap: break-word;
+        text-overflow: ellipsis;
+    }
 `
 
 const HeroModal = ({show, onClose, hero}) => {
@@ -92,7 +112,15 @@ const HeroModal = ({show, onClose, hero}) => {
     } else if (secSearchParams.comics.length > 0) {
         // case when comics were found for the specified criteria
         modalBody = comicList.map((comic) => {
-            return <h4>{comic.title}</h4>
+            return (
+                <ModalItem>
+                    <img src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`} />
+                    <div>
+                        <h4>{comic.title}</h4>
+                        <p>{comic.description}</p>
+                    </div>
+                </ModalItem>
+            )
         })
     } else {
         // case when no comics search criteria was given

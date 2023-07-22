@@ -1,11 +1,12 @@
 import styled from 'styled-components'
 import Image from 'next/image';
+// @ts-ignore
 import logo from '../../public/media/img/marvel-logo.png'
 import 'material-icons/iconfont/outlined.css';
 import 'material-icons/iconfont/filled.css';
 import { useState } from 'react';
 import { useAtom } from 'jotai';
-import { searchParamsAtom } from '../../app/atoms';
+import { secSearchParamsAtom } from '../../app/atoms';
 import { useRouter } from 'next/navigation';
 
 const StyledHeader = styled.header`
@@ -32,7 +33,7 @@ const VertDivider = styled.div`
 `
 const Header = () => {
     const [search, setSearch] = useState('')
-    const [searchParams, setSearchParams] = useAtom(searchParamsAtom)
+    const [searchParams, setSearchParams] = useAtom(secSearchParamsAtom)
     const router = useRouter()
 
     const handleChange = (ev) => {
@@ -41,23 +42,13 @@ const Header = () => {
     }
     const handleSubmit = (ev) => {
         ev.preventDefault();
-        // getting the input value
-        const value = ev.target.children[0].value;
-        // getting both heroes and comics params (if present, defaults to empty)
-        const heroes = value.split('=')[0] ?? []
-        const comics = value.split('=')[1] ?? []
-        // set params globally in Atom
-        setSearchParams(
-            {heroes: heroes, comics: comics}
-        )
-        // building the url with the query params
         const getQuery = (arr, entry) => {
             // exit when no params present
             if (arr.length < 1) {
                 return ''
             }
             // removing blank spaces and upper cases
-            const formattedArray = arr.split(',').map((elem) => elem.replaceAll(' ', '').toLowerCase())
+            const formattedArray = arr.split(',').map((elem) => elem.trim().toLowerCase())
             let query = ''
             // accumulating the query string
             formattedArray.forEach((elem) => {
@@ -65,11 +56,32 @@ const Header = () => {
             });
             return query
         }
-        // const url = `/search?${heroes.length > 0 ? 'hero='+heroes+'&': ''}${comics.length > 0 ? 'comic='+comics : ''}`
-        const url = `/search?${getQuery(heroes, 'hero')}${getQuery(comics, 'comic')}`
+        // getting the input value
+        const value = ev.target.children[0].value;
+        // checking for comic url as input
+        if (value.includes('https://www.marvel.com/comics/issue') || value.includes('http://www.marvel.com/comics/issue')) {
+            // getting the comic id
+            const comicId = value.split('issue/')[1].split('/')[0];
+            // escape hatch when invalid url provided
+            if (comicId.length < 1) {
+                router.push('/comic');
+                return
+            }
+            const url = `/comic?${getQuery(comicId, 'comicId')}`
+            // pushing to the search page
+            router.push(url);
+            return
+        }
 
+        // getting both heroes and comics params (if present, defaults to empty)
+        const heroes = value.split('=')[0] ?? []
+        const comics = value.split('=')[1] ?? []
+        // building the url with the query params
+
+        const url = `/search?${getQuery(heroes, 'hero')}${getQuery(comics, 'comic')}`
         // pushing to the search page
         router.push(url);
+        return
     }
     return ( 
         <StyledHeader>
@@ -83,12 +95,11 @@ const Header = () => {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 33vw"
              />
             <VertDivider data-testid="divider" />
-            <span className="material-icons-outlined" data-testid="searchicon">search</span>
+            <span className="material-icons-outlined searchicon" data-testid="searchicon">search</span>
             <form onSubmit={handleSubmit}>
-            <input data-testid="searchinput" value={search} onChange={handleChange} />
+            <input data-testid="searchinput" value={search} onChange={handleChange} placeholder='Search'/>
             </form>
-            <span className="material-icons-outlined" data-testid="favicon">star_border</span>
-            <VertDivider data-testid="divider2" />
+            <span className="material-icons-outlined favicon" data-testid="favicon">star_border</span>
         </StyledHeader>
      );
 }

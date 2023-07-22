@@ -17,6 +17,7 @@ export const fetchData = async (heroParam, comicParam) => {
                     orderBy: '-onsaleDate',
                     formatType: 'comic',
                     titleStartsWith: comicParam,
+                    format: 'comic',
                 }
             }
         )

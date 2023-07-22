@@ -14,22 +14,52 @@ const StyledHeader = styled.header`
     position: relative;
     top: 0;
     left: 0;
-    min-width: 100vw;
+    width: 100%;
     max-height: 4rem;
     min-height: 4rem;
-    background-color: tomato; 
-    display: grid;
-    grid-template-columns: auto auto auto 1fr auto auto;
+    background-color: white; /* theme */
+    display: flex;
+    box-shadow: 0px 1px 2px 2px lightgray; /* theme */
+    justify-content: space-between;
     align-items: center;
+    > .searchicon {
+        padding: 0 5px 0 1rem;
+        color: grey; /* theme */
+        cursor: default;
+        user-select: none;
+    }
+    > .favicon {
+        padding: 0 2rem 0 5px;
+        color: grey; /* theme */
+        cursor: pointer;
+        user-select: none;
+    }
+    > form {
+        flex: 1 1 auto;
+        
+    }
     > form > input {
+        padding-left: 1rem;
         width: 100%;
+        border: 0px solid white;
+        border-radius: 5px;
+        height: 1.5rem;
+        font-size: 110%;
+    }
+    > form > input:focus-visible {
+        outline: 0px;
+    }
+    > .lastDiv {
+        margin-right: 3rem;
     }
 `
 const VertDivider = styled.div`
-    border-left: 1px solid #38546d; 
-    border-right: 1px solid #16222c; 
+    border-left: 1px solid lightgray; 
+    border-right: 1px solid lightgray; 
     height: 80%;
     position: relative;
+    min-width: 1px;
+    height: 3rem;
 `
 const Header = () => {
     const [search, setSearch] = useState('')

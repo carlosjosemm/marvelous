@@ -18,6 +18,8 @@ const StyledHeroPreview = styled.div`
     border: 1px solid rgba(0,0,0, 0.125);
     border-radius: 0.5rem;
     text-align: center;
+    user-select: none;
+    cursor: pointer;
     img {
         height: 380px;
         width: 100%;

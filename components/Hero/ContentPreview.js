@@ -4,6 +4,7 @@ import HeroModal from "./HeroModal";
 import { useCallback } from "react";
 import 'material-icons/iconfont/outlined.css';
 import storageAvailable from "../../util/checkStorageAvailability";
+import { useEffect } from "react";
 
 const StyledHeroPreview = styled.div`
     margin: 1ch;
@@ -57,53 +58,90 @@ const ContentPreview = ({contentData, secSearchParam}) => {
     const [showModal, setShowModal] = useState(false);
     const [isFav, setIsFav] = useState(false)
 
-    const handleFav = (contentData, secSearchParam, ev) => {
+    const handleFav = (contentData, /** @type {Array.<string>} */ params, ev) => {
+        // preventing bubbling (misfiring modal)
         ev.stopPropagation();
-        if (storageAvailable("localStorage")) {
-            // local storage available
-            if (localStorage.getItem('fav')) {
-                // some fav data already present in storage
-                const fav = JSON.parse(localStorage.getItem('fav'))
-                fav.push({
-                    contentData: contentData,
-                    secSearchParam: secSearchParam,
-                });
-                const favString = JSON.stringify(fav);
-                localStorage.setItem('fav', favString);
-            } else {
-                // no fav data present in storage yet
-                const fav = [{
-                    contentData: contentData,
-                    secSearchParam: secSearchParam,
-                }];
-                const favString = JSON.stringify(fav);
-                localStorage.setItem('fav', favString);
-            }
-        } else if (storageAvailable("sessionStorage")) {
-            // only session storage available.
-            if (sessionStorage.getItem('fav')) {
-                // some fav data already present in storage
-                const fav = JSON.parse(sessionStorage.getItem('fav'))
-                fav.push({
-                    contentData: contentData,
-                    secSearchParam: secSearchParam,
-                });
-                const favString = JSON.stringify(fav);
-                sessionStorage.setItem('fav', favString);
-            } else {
-                // no fav data present in storage yet
-                const fav = [].push({
-                    contentData: contentData,
-                    secSearchParam: secSearchParam,
-                });
-                const favString = JSON.stringify(fav);
-                sessionStorage.setItem('fav', favString);
-            }
+        if (isFav) {
+            // already faved, proceed to remove fav from storage
+            const favs = JSON.parse(localStorage.getItem('fav'))
+            let favIndex;
+            // checking each fav stored to find the one to be removed
+            favs.map((fav, i) => {
+                // checking if hero name matches
+                if (fav.contentData.name == contentData.name) {
+                    // checking if comic search params matches
+                    if (fav.secSearchParam.length == params.length && params.length > 0) {
+                        // checking if all params matches (same exact search)
+                        const matches = params.reduce(
+                            (match, param) => {
+                                if (match) {
+                                    match = fav.secSearchParam.includes(param);
+                                }
+                                return match
+                            }
+                            , true);
+                        // finding the index of the fav to be removed
+                        matches ? favIndex = i : null;
+                    }
+                }
+            })
+            // remove the fav element from the array
+            const newFavs = favs.filter((fav, index) => {
+                return index != favIndex;
+            })
+            // refresh favs on storage
+            const favString = JSON.stringify(newFavs);
+            localStorage.setItem('fav', favString);
+            setIsFav(false)
         } else {
-            // no storage available
+            // item not faved, adding fav to storage
+            if (storageAvailable("localStorage")) {
+                // local storage available
+                if (localStorage.getItem('fav')) {
+                    // some fav data already present in storage
+                    const fav = JSON.parse(localStorage.getItem('fav'))
+                    fav.push({
+                        contentData: contentData,
+                        secSearchParam: params,
+                    });
+                    const favString = JSON.stringify(fav);
+                    localStorage.setItem('fav', favString);
+                } else {
+                    // no fav data present in storage yet
+                    const fav = [{
+                        contentData: contentData,
+                        secSearchParam: params,
+                    }];
+                    const favString = JSON.stringify(fav);
+                    localStorage.setItem('fav', favString);
+                }
+            } else if (storageAvailable("sessionStorage")) {
+                // only session storage available.
+                if (sessionStorage.getItem('fav')) {
+                    // some fav data already present in storage
+                    const fav = JSON.parse(sessionStorage.getItem('fav'))
+                    fav.push({
+                        contentData: contentData,
+                        secSearchParam: params,
+                    });
+                    const favString = JSON.stringify(fav);
+                    sessionStorage.setItem('fav', favString);
+                } else {
+                    // no fav data present in storage yet
+                    const fav = [].push({
+                        contentData: contentData,
+                        secSearchParam: params,
+                    });
+                    const favString = JSON.stringify(fav);
+                    sessionStorage.setItem('fav', favString);
+                }
+            } else {
+                // no storage available
+                return
+            }
+            setIsFav(true)
             return
         }
-        return
     }
 
     const handleClick = useCallback(() => {
@@ -114,39 +152,41 @@ const ContentPreview = ({contentData, secSearchParam}) => {
         ev.stopPropagation()
         setShowModal(false)
     }, [])
-    // if (!secSearchParam) {
-    //     return ( 
-    //         <a onClick={handleClick} >
-    //         <HeroModal show={showModal} onClose={handleClose} hero={contentData} />
-    //         <StyledHeroPreview>
-    //             <img src={`${contentData.thumbnail.path}.${contentData.thumbnail.extension}`} style={{objectFit: 'cover'}}/>
-    //             <div>
-    //                 <p>{contentData.name}</p>
-    //             </div>
-    //         </StyledHeroPreview>
-    //         </a>
-    //     );
-    // }
 
-    // if (secSearchParam.length > 0) {
-    //     return ( 
-    //         <a onClick={handleClick} >
-    //         <HeroModal show={showModal} onClose={handleClose} hero={contentData} />
-    //         <StyledHeroPreview>
-    //             <img src={`${contentData.thumbnail.path}.${contentData.thumbnail.extension}`} style={{objectFit: 'cover'}}/>
-    //             <div>
-    //                 <p>{contentData.name}</p>
-    //             </div>
-    //         </StyledHeroPreview>
-    //         </a>
-    
-    //     ); 
-    // }
+    useEffect(() => {
+        // checking favs stored to find whether this search is faved or not:
+        const favs = JSON.parse(localStorage.getItem('fav'))
+        favs.map((fav, i) => {
+            // checking if hero names matches
+            if (fav.contentData.name == contentData.name) {
+                // checking if comic search params matches
+                if (fav.secSearchParam.length == secSearchParam.length && secSearchParam.length > 0) {
+                    // checking if all params in both arrays matches (same exact search)
+                    const matches = secSearchParam.reduce(
+                        (match, param) => {
+                            if (match) {
+                                match = fav.secSearchParam.includes(param);
+                            }
+                            return match
+                        }
+                        , true);
+                    // setting the corresponding state
+                    matches ? setIsFav(true) : null;
+                };
+            };
+        })
+    }, [contentData, secSearchParam, isFav])
+
     return ( 
         <a onClick={handleClick} >
             <HeroModal show={showModal} onClose={handleClose} hero={contentData} />
             <StyledHeroPreview>
-                <span className="material-icons-outlined favicon" onClick={(ev) => handleFav(contentData, secSearchParam, ev)} >star_border</span>
+                <span 
+                    className="material-icons-outlined favicon" 
+                    onClick={(ev) => handleFav(contentData, secSearchParam, ev)}
+                >
+                    {isFav? 'star' : 'star_border'}
+                </span>
                 <img src={`${contentData.thumbnail.path}.${contentData.thumbnail.extension}`} style={{objectFit: 'cover'}}/>
                 <div>
                     <p>{contentData.name}</p>

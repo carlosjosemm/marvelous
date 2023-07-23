@@ -116,7 +116,6 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
             } else {
                 allResults = comicsSearches.data.data.results;
             }
-            console.log(hero.name, allResults)
             return allResults
         })
     };
@@ -136,9 +135,9 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
         modalBody = <><h3>No Comics found for this hero. Try a different criteria.</h3></>
     } else if (comicList.length > 0) {
         // case when comics were found for the specified criteria
-        modalBody = comicList.map((comic) => {
+        modalBody = comicList.map((comic, index) => {
             return (
-                <ModalItem>
+                <ModalItem key={index*1000*Math.random()}>
                     <img src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`} />
                     <div>
                         <h4>{comic.title}</h4>

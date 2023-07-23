@@ -6,10 +6,38 @@ const StyledRowContainer = styled.div`
     justify-self: stretch;
     align-self: stretch;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    @media only screen and (min-width: ${props => props.theme.breakpoints.laptop}) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    @media only screen and (max-width: ${props => props.theme.breakpoints.laptop}) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    @media only screen and (max-width: ${props => props.theme.breakpoints.tablet}) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    @media only screen and (max-width: ${props => props.theme.breakpoints.mobileLarge}) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media only screen and (max-width: ${props => props.theme.breakpoints.mobileSmall}) {
+        grid-template-columns: repeat(1, 1fr);
+    }
 `
 const StyledResultTitle = styled.h3`
-    grid-column: span 4;
+    @media only screen and (min-width: ${props => props.theme.breakpoints.laptop}) {
+        grid-column: span 4;
+    }
+    @media only screen and (max-width: ${props => props.theme.breakpoints.laptop}) {
+        grid-column: span 3;
+    }
+    @media only screen and (max-width: ${props => props.theme.breakpoints.tablet}) {
+        grid-column: span 3;
+    }
+    @media only screen and (max-width: ${props => props.theme.breakpoints.mobileLarge}) {
+        grid-column: span 2;
+    }
+    @media only screen and (max-width: ${props => props.theme.breakpoints.mobileSmall}) {
+        grid-column: span 1;
+    }
 `
 const ResultsContainer = ({contentRow}) => {
     return ( 

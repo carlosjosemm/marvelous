@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { useAtom } from 'jotai';
 import { secSearchParamsAtom } from '../../app/atoms';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const StyledHeader = styled.header`
     margin: 0;
@@ -28,7 +29,7 @@ const StyledHeader = styled.header`
         cursor: default;
         user-select: none;
     }
-    > .favicon {
+    .favicon {
         padding: 0 2rem 0 5px;
         color: grey; /* theme */
         cursor: pointer;
@@ -129,7 +130,9 @@ const Header = () => {
             <form onSubmit={handleSubmit}>
             <input data-testid="searchinput" value={search} onChange={handleChange} placeholder='Search'/>
             </form>
-            <span className="material-icons-outlined favicon" data-testid="favicon">star_border</span>
+            <Link href="/favs">
+                <span className="material-icons-outlined favicon" data-testid="favicon">star_border</span>
+            </Link>
         </StyledHeader>
      );
 }

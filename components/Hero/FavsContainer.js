@@ -12,7 +12,7 @@ const StyledTitle = styled.h3`
 `
 /** 
  * @typedef {object} props
- * @property {Array<{contentData: {}, secSearchParam: Array}>} content
+ * @property {Array<{contentData: {thumbnail: {path: string, extension: string}, name: string}, secSearchParam: Array}>} content
  */
 const FavsContainer = (/** @type {props}*/ {content}) => {
     return ( 

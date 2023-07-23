@@ -166,25 +166,27 @@ const ContentPreview = (/** @type {props}*/ {contentData, secSearchParam}) => {
     useEffect(() => {
         // checking favs stored to find whether this search is faved or not:
         const favs = JSON.parse(localStorage.getItem('fav'))
-        favs.map((fav, i) => {
-            // checking if hero names matches
-            if (fav.contentData.name == contentData.name) {
-                // checking if comic search params matches
-                if (fav.secSearchParam.length == secSearchParam?.length && secSearchParam?.length > 0) {
-                    // checking if all params in both arrays matches (same exact search)
-                    const matches = secSearchParam.reduce(
-                        (match, param) => {
-                            if (match) {
-                                match = fav.secSearchParam.includes(param);
+        if (favs && favs.length > 0) {
+            favs.map((fav, i) => {
+                // checking if hero names matches
+                if (fav.contentData.name == contentData.name) {
+                    // checking if comic search params matches
+                    if (fav.secSearchParam.length == secSearchParam?.length && secSearchParam?.length > 0) {
+                        // checking if all params in both arrays matches (same exact search)
+                        const matches = secSearchParam.reduce(
+                            (match, param) => {
+                                if (match) {
+                                    match = fav.secSearchParam.includes(param);
+                                }
+                                return match
                             }
-                            return match
-                        }
-                        , true);
-                    // setting the corresponding state
-                    matches ? setIsFav(true) : null;
+                            , true);
+                        // setting the corresponding state
+                        matches ? setIsFav(true) : null;
+                    };
                 };
-            };
-        })
+            })
+        }
     }, [contentData, secSearchParam, isFav])
 
     return ( 

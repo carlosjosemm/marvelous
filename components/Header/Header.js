@@ -7,8 +7,9 @@ import 'material-icons/iconfont/filled.css';
 import { useState } from 'react';
 import { useAtom } from 'jotai';
 import { secSearchParamsAtom } from '../../app/atoms';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useMemo } from 'react';
 
 const StyledHeader = styled.header`
     margin: 0;
@@ -66,6 +67,8 @@ const Header = () => {
     const [search, setSearch] = useState('')
     const [searchParams, setSearchParams] = useAtom(secSearchParamsAtom)
     const router = useRouter()
+    const path = usePathname()
+    const isFavs = useMemo(() => path.startsWith('/favs'), [path])
 
     const handleChange = (ev) => {
         const value = ev.target.value;
@@ -131,7 +134,7 @@ const Header = () => {
             <input data-testid="searchinput" value={search} onChange={handleChange} placeholder='Search'/>
             </form>
             <Link href="/favs">
-                <span className="material-icons-outlined favicon" data-testid="favicon">star_border</span>
+                <span className="material-icons-outlined favicon" data-testid="favicon">{isFavs ? 'star' : 'star_border'}</span>
             </Link>
         </StyledHeader>
      );

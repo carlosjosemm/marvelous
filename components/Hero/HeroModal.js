@@ -77,11 +77,12 @@ const ModalItem = styled.div`
     }
 `
 
-const HeroModal = ({show, onClose, hero}) => {
+const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
     // getting the secondary (comics) search params
-    const secSearchParams = useAtomValue(secSearchParamsAtom);
+    const globalSearchParams = useAtomValue(secSearchParamsAtom);
     const [comicList, setComicList] = useState([])
-
+    // adding optional comics search params from props, defaults to the global value (atom). 
+    const searchParams = explicitSearchParam ?? globalSearchParams;
     const getComics = async (secSearchParams) => {
         const comicsSearches = await Promise.all(
             secSearchParams.comics.map((comicParam) => {
@@ -99,17 +100,18 @@ const HeroModal = ({show, onClose, hero}) => {
     };
 
     useEffect(()=> {
-        if (secSearchParams.comics.length > 0) {
-            getComics(secSearchParams)
+        if (searchParams.comics.length > 0) {
+            getComics(searchParams
+                )
         }
-    }, [secSearchParams])
+    }, [searchParams])
 
     /** CREATING MODAL BODY (CONTENT) **/
     let modalBody;
-    if (secSearchParams.comics.length > 0 && comicList.length == 0) {
+    if (searchParams.comics.length > 0 && comicList.length == 0) {
         // case when no comics were found for the specified criteria
-        modalBody = <h5>No comics matches "{secSearchParams.comics.join()}" for this hero</h5>
-    } else if (secSearchParams.comics.length > 0) {
+        modalBody = <><h3>No Comics found for this hero. Try a different criteria.</h3><p>Searching: "{searchParams.comics.join('" or "')}"</p></>
+    } else if (searchParams.comics.length > 0) {
         // case when comics were found for the specified criteria
         modalBody = comicList.map((comic) => {
             return (

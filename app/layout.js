@@ -1,7 +1,7 @@
 'use client'
 import Theme from "./Theme";
 import '../styles/globals.css'
-import Footer from "../components/Footer/Footer";
+import StyledFooter from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import StyledComponentsRegistry from "../lib/registry";
 import AtomProvider from "./AtomProvider";
@@ -18,7 +18,7 @@ const layout = ({children}) => {
                                 <main style={{flexGrow: '2', minHeight: '70vh'}}>
                                     {children}
                                 </main>
-                            <Footer />
+                            <StyledFooter />
                             </div>
                         </Theme>
                     </StyledComponentsRegistry>

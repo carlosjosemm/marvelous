@@ -5,6 +5,7 @@ import { useCallback } from "react";
 import 'material-icons/iconfont/outlined.css';
 import storageAvailable from "../../util/checkStorageAvailability";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 const StyledHeroPreview = styled.div`
     margin: 1ch;
@@ -54,9 +55,17 @@ const StyledHeroPreview = styled.div`
     }
     overflow: hidden; 
 `
-const ContentPreview = ({contentData, secSearchParam}) => {
+/** 
+ * @typedef {Object} props
+ * @property {string[]} secSearchParam
+ * @property {{thumbnail: {path: string, extension: string}, name: string}} contentData
+ */
+
+const ContentPreview = (/** @type {props}*/ {contentData, secSearchParam}) => {
     const [showModal, setShowModal] = useState(false);
     const [isFav, setIsFav] = useState(false)
+    const path = usePathname()
+    const isFavs = path.startsWith('/favs');
 
     const handleFav = (contentData, /** @type {Array.<string>} */ params, ev) => {
         // preventing bubbling (misfiring modal)
@@ -136,7 +145,8 @@ const ContentPreview = ({contentData, secSearchParam}) => {
                     sessionStorage.setItem('fav', favString);
                 }
             } else {
-                // no storage available
+                // no storage available. 
+                //To improve: toast to warn user of lack of functionality due to browser limitation.
                 return
             }
             setIsFav(true)
@@ -179,7 +189,12 @@ const ContentPreview = ({contentData, secSearchParam}) => {
 
     return ( 
         <a onClick={handleClick} >
-            <HeroModal show={showModal} onClose={handleClose} hero={contentData} />
+            <HeroModal 
+                show={showModal} 
+                    onClose={handleClose} 
+                    hero={contentData} 
+                    explicitSearchParam={isFavs ? {comics: secSearchParam} : undefined}
+            />
             <StyledHeroPreview>
                 <span 
                     className="material-icons-outlined favicon" 

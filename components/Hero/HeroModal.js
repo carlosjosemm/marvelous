@@ -133,7 +133,7 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
     let modalBody;
     if (searchParams.comics?.length > 0 && comicList.length == 0) {
         // case when no comics were found for the specified criteria
-        modalBody = <><h3>No Comics found for this hero. Try a different criteria.</h3><p>Searching: "{searchParams.comics.join('" or "')}"</p></>
+        modalBody = <><h3>No Comics found for this hero. Try a different criteria.</h3></>
     } else if (comicList.length > 0) {
         // case when comics were found for the specified criteria
         modalBody = comicList.map((comic) => {
@@ -164,6 +164,7 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
                 <ModalHeader>
                     <button onClick={onClose}><span className="material-icons-outlined">close</span></button>
                     <h1>{hero.name}</h1>
+                    <p>{searchParams.comics ? `Showing results for ${searchParams.comics.join('" & "')}` : 'Showing latest Comics for this hero'}</p>
                 </ModalHeader> 
                 <ModalBody>
                     {modalBody}

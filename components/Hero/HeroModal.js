@@ -5,6 +5,7 @@ import { useState } from "react";
 import { fetchData } from "../../util/fetchData";
 import { useEffect } from "react";
 import 'material-icons/iconfont/outlined.css';
+import axios from "axios";
 
 const StyledModal = styled.div`
     z-index: 1000;
@@ -84,17 +85,38 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
     // adding optional comics search params from props, defaults to the global value (atom). 
     const searchParams = explicitSearchParam ?? globalSearchParams;
     const getComics = async (secSearchParams) => {
-        const comicsSearches = await Promise.all(
-            secSearchParams.comics.map((comicParam) => {
-                return fetchData(hero.id, comicParam)
-            })
-        );
+        let comicsSearches;
+        if (secSearchParams) {
+            comicsSearches = await Promise.all(
+                secSearchParams.comics.map((comicParam) => {
+                    return fetchData(hero.id, comicParam)
+                })
+            );
+        } else {
+            const heroBaseURL = 'http://gateway.marvel.com/v1/public/characters'
+            comicsSearches = await axios.get(
+                `${heroBaseURL}/${hero.id}/comics`,
+                {
+                    params: {
+                        apikey: process.env.NEXT_PUBLIC_API_PUBLICKEY,
+                        orderBy: '-onsaleDate',
+                        formatType: 'comic',
+                        format: 'comic',
+                    }
+                }
+            )
+        }
 
         setComicList(()=>{
             let allResults = [];
-            for (const search of comicsSearches) {
-                allResults.push(...search.data.data.results)
+            if (secSearchParams) {
+                for (const search of comicsSearches) {
+                    allResults.push(...search.data.data.results)
+                }
+            } else {
+                allResults = comicsSearches.data.data.results;
             }
+            console.log(hero.name, allResults)
             return allResults
         })
     };
@@ -102,6 +124,8 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
     useEffect(()=> {
         if (searchParams.comics?.length > 0) {
             getComics(searchParams)
+        } else {
+            getComics()
         }
     }, [searchParams])
 
@@ -110,7 +134,7 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
     if (searchParams.comics?.length > 0 && comicList.length == 0) {
         // case when no comics were found for the specified criteria
         modalBody = <><h3>No Comics found for this hero. Try a different criteria.</h3><p>Searching: "{searchParams.comics.join('" or "')}"</p></>
-    } else if (searchParams.comics?.length > 0) {
+    } else if (comicList.length > 0) {
         // case when comics were found for the specified criteria
         modalBody = comicList.map((comic) => {
             return (
@@ -124,8 +148,8 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
             )
         })
     } else {
-        // case when no comics search criteria was given
-        // TBD
+        // case when no comics were found
+        modalBody = <h2>No Comics found for this hero.</h2>
     }
 
     // modal is closed (hidden)

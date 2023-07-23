@@ -100,18 +100,17 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
     };
 
     useEffect(()=> {
-        if (searchParams.comics.length > 0) {
-            getComics(searchParams
-                )
+        if (searchParams.comics?.length > 0) {
+            getComics(searchParams)
         }
     }, [searchParams])
 
     /** CREATING MODAL BODY (CONTENT) **/
     let modalBody;
-    if (searchParams.comics.length > 0 && comicList.length == 0) {
+    if (searchParams.comics?.length > 0 && comicList.length == 0) {
         // case when no comics were found for the specified criteria
         modalBody = <><h3>No Comics found for this hero. Try a different criteria.</h3><p>Searching: "{searchParams.comics.join('" or "')}"</p></>
-    } else if (searchParams.comics.length > 0) {
+    } else if (searchParams.comics?.length > 0) {
         // case when comics were found for the specified criteria
         modalBody = comicList.map((comic) => {
             return (

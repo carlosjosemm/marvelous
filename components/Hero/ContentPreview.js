@@ -79,7 +79,12 @@ const ContentPreview = (/** @type {props}*/ {contentData, secSearchParam}) => {
                 // checking if hero name matches
                 if (fav.contentData.name == contentData.name) {
                     // checking if comic search params matches
-                    if (fav.secSearchParam.length == params.length && params.length > 0) {
+                    if (fav.secSearchParam?.length == params?.length) {
+                        if (!params) {
+                            // no params to compare, matches fav overall
+                            favIndex = i;
+                            return
+                        }
                         // checking if all params matches (same exact search)
                         const matches = params.reduce(
                             (match, param) => {
@@ -171,7 +176,12 @@ const ContentPreview = (/** @type {props}*/ {contentData, secSearchParam}) => {
                 // checking if hero names matches
                 if (fav.contentData.name == contentData.name) {
                     // checking if comic search params matches
-                    if (fav.secSearchParam.length == secSearchParam?.length && secSearchParam?.length > 0) {
+                    if (fav.secSearchParam?.length == secSearchParam?.length) {
+                        // no comics params to compare, search match overall 
+                        if (secSearchParam == undefined) {
+                            setIsFav(true);
+                            return
+                        }
                         // checking if all params in both arrays matches (same exact search)
                         const matches = secSearchParam.reduce(
                             (match, param) => {

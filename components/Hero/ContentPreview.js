@@ -170,7 +170,7 @@ const ContentPreview = (/** @type {props}*/ {contentData, secSearchParam}) => {
             // checking if hero names matches
             if (fav.contentData.name == contentData.name) {
                 // checking if comic search params matches
-                if (fav.secSearchParam.length == secSearchParam.length && secSearchParam.length > 0) {
+                if (fav.secSearchParam.length == secSearchParam?.length && secSearchParam?.length > 0) {
                     // checking if all params in both arrays matches (same exact search)
                     const matches = secSearchParam.reduce(
                         (match, param) => {

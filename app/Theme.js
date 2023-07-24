@@ -1,5 +1,7 @@
+import { useAtom, useAtomValue } from "jotai";
 import { useState } from "react";
 import { ThemeProvider } from "styled-components";
+import { themeContextAtom } from "./atoms";
 
 const globalTheme = {
   light: {
@@ -49,7 +51,7 @@ const globalTheme = {
 };
 
 const Theme = ({ children }) => {
-  const [themeContext, setThemeContext] = useState('dark');
+  const themeContext = useAtomValue(themeContextAtom);
   return (
     <ThemeProvider theme={globalTheme[themeContext]}>{children}</ThemeProvider>
   )

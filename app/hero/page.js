@@ -7,7 +7,7 @@ import HeroInfo from '../../components/Hero/HeroInfo';
 import HeroThumbnail from '../../components/Hero/HeroThumbnail';
 import Message from '../../components/Generic/Message';
 
-const HeroPage = ({params}) => {
+const HeroPage = () => {
     const [heroData, setHeroData] = useState(null);
     const [comicsData, setComicsData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -58,7 +58,7 @@ const HeroPage = ({params}) => {
         return <Message><h2>Loading Hero...</h2></Message>
     }
     if (error) {
-        return <Message>{error.message}</Message>
+        return <Message><h2>Error: {error.message}</h2></Message>
     }
     return ( 
         <HeroContainer>

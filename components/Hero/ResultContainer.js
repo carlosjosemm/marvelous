@@ -23,6 +23,7 @@ const StyledRowContainer = styled.div`
     }
 `
 const StyledResultTitle = styled.h3`
+    color: ${props => props.theme.colors.font};
     @media only screen and (min-width: ${props => props.theme.breakpoints.laptop}) {
         grid-column: span 4;
     }

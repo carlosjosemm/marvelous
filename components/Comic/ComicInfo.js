@@ -2,7 +2,7 @@ import styled from "styled-components";
 
  const ComicInfoStyled = styled.section`
     padding: 1rem;
-    color: #3e3e3e;
+    color: ${props => props.theme.colors.font};
     > h4 {
         margin-top: 1ch;
         margin-bottom: 1ch;

@@ -13,7 +13,7 @@ const StyledContentPreview = styled.div`
     word-wrap: break-word;
     background-color: transparent;
     background-clip: border-box;
-    border: 1px solid rgba(0,0,0,.125);
+    border: 1px solid ${props => props.theme.colors.tooltip};
     border-radius: 0.25rem;
     text-align: center;
     img {

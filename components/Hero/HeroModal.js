@@ -15,7 +15,7 @@ const StyledModal = styled.div`
     bottom: 0;
     right: 0;
     top: 0;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.7);
     justify-content: center;
     align-items: center;
 `
@@ -27,6 +27,7 @@ const StyledOverlay = styled.section`
     border-radius: 0.5rem;
     max-height: 70vh;
     margin: auto 1rem;
+    background-color: ${props => props.theme.colors.foreground};
 `
 const ModalHeader = styled.div`
     padding: 0.5rem;
@@ -34,12 +35,15 @@ const ModalHeader = styled.div`
     margin-top: 1rem;
     user-select: none;
     cursor: default;
+    color: ${props => props.theme.colors.font};
+    background-color: ${props => props.theme.colors.foreground};
     button {
         float: right;
         padding: 0 2px;
         border: 0px solid white;
         background-color: transparent;
         cursor: pointer;
+        color: ${props => props.theme.colors.font};
     }
     > h1 {
         font-size: 2rem;
@@ -56,6 +60,8 @@ const ModalBody = styled.div`
     align-items: flex-start;
     overflow: auto;
     max-width: ${props => props.theme.breakpoints.laptop};
+    background-color: ${props => props.theme.colors.foreground};
+    color: ${props => props.theme.colors.font};
 `
 const ModalItem = styled.div`
     display: grid;

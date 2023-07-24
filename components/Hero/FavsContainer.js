@@ -23,6 +23,7 @@ const StyledFavsContainer = styled(HeroContainer)`
 
 `
 const StyledTitle = styled.h3`
+    color: ${props => props.theme.colors.font};
     @media only screen and (min-width: ${props => props.theme.breakpoints.laptop}) {
         grid-column: span 4;
     }

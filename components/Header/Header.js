@@ -21,22 +21,23 @@ const StyledHeader = styled.header`
     width: 100%;
     max-height: 5rem;
     min-height: 4rem;
-    background-color: white; /* theme */
+    background-color: ${props => props.theme.colors.foreground}; /* theme */
     display: flex;
-    box-shadow: 0px 1px 2px 2px lightgray; /* theme */
+    box-shadow: 0px 1px 2px 2px ${props => props.theme.colors.shadow}; /* theme */
     justify-content: space-between;
     align-items: center;
     > .searchicon {
         padding: 0 5px 0 1rem;
-        color: grey; /* theme */
         cursor: default;
         user-select: none;
     }
     .favicon {
         padding: 0 2rem 0 5px;
-        color: grey; /* theme */
         cursor: pointer;
         user-select: none;
+    }
+    .searchicon, .favicon, .advancedSearchIcon {
+        color: ${props => props.theme.colors.icon};
     }
     > form {
         flex: 1 1 auto;
@@ -61,6 +62,8 @@ const StyledHeader = styled.header`
         height: 4rem;
         font-size: 110%;
         line-height: 3.5rem;
+        background-color: transparent;
+        color: ${props => props.theme.colors.font};
     }
     > form input:not(:first-child) {
         

@@ -5,6 +5,13 @@ import StyledFooter from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import StyledComponentsRegistry from "../lib/registry";
 import AtomProvider from "./AtomProvider";
+import { styled } from "styled-components";
+
+const StyledMain = styled.main`
+    flex-grow: 2; 
+    min-height: 70vh;
+    background-color: ${props => props.theme.colors.background};
+`
 
 const layout = ({children}) => {
     return ( 
@@ -15,9 +22,9 @@ const layout = ({children}) => {
                         <Theme>
                             <div style={{display: "flex", flexDirection: 'column', minHeight: '100vh'}}>
                             <Header />
-                                <main style={{flexGrow: '2', minHeight: '70vh'}}>
+                                <StyledMain>
                                     {children}
-                                </main>
+                                </StyledMain>
                             <StyledFooter />
                             </div>
                         </Theme>

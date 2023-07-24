@@ -28,12 +28,12 @@ const StyledTooltipWrapper = styled.span`
     position: relative;
     & ${StyledTooltipTrigger}:hover + ${StyledTooltipContent} {
         visibility: visible;
-        color: #fff;
-        background-color: rgba(0, 0, 0, 0.7);
+        color: ${props => props.theme.colors.altText};
+        background-color: ${props => props.theme.colors.tooltip};
         width: max-content;
         padding: 8px 8px;
         &:before {
-         border-color: transparent transparent rgba(0, 0, 0, 0.7) rgba(0, 0, 0, 0.7);
+         border-color: transparent transparent ${props => props.theme.colors.tooltip} ${props => props.theme.colors.tooltip};
         }
    }
 `

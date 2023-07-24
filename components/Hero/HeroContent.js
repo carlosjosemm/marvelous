@@ -9,6 +9,8 @@ import ComicPreview from "../Comic/ComicPreview";
     grid-template-columns: repeat(5, 1fr);
     row-gap: 1ch;
     grid-column-start: span 2;
+    background-color: transparent;
+    color: ${props => props.theme.colors.font};
     > h3 {
         grid-column: span 5;
         margin-bottom: 0;
@@ -32,8 +34,6 @@ import ComicPreview from "../Comic/ComicPreview";
         grid-column: span 3;
     }
     }
-    
-
  `
  const HeroContent = ({comicsData, heroName}) => {
     // limit the visible comics to 10

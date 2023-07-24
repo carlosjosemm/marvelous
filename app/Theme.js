@@ -1,30 +1,58 @@
-import React from "react";
+import { useState } from "react";
 import { ThemeProvider } from "styled-components";
 
-const theme = {
-  breakpoints: {
-    mobileSmall: '320px',
-    mobileLarge: '640px',
-    tablet: '768px',
-    laptop: '1024px',
-    laptopLarge: '1280px'
+const globalTheme = {
+  light: {
+    breakpoints: {
+      mobileSmall: '320px',
+      mobileLarge: '640px',
+      tablet: '768px',
+      laptop: '1024px',
+      laptopLarge: '1280px'
+    },
+    colors: {
+      foregroud:  "#FFFFFF",
+      background: "#F7F8FA",
+      font: '#3E3E3E',
+      icon: 'grey',
+      shadow: 'lightgrey',
+      tooltip: 'rgba(0, 0, 0, 0.7)',
+      altText: 'white'
+    },
+    fonts: {
+      opensans: "Open sans",
+      systemui: 'system-ui'
+    },
   },
-  colors: {
-    powderWhite: "#FFFDF9",
-    persianGreen: "#06B49A",
-    lightBlue: "#AFDBD2",
-    onyx: "#36313D"
-  },
-  fonts: ["sans-serif", "Roboto"],
-  fontSizes: {
-    small: "1em",
-    medium: "2em",
-    large: "3em"
+  dark: {
+    breakpoints: {
+      mobileSmall: '320px',
+      mobileLarge: '640px',
+      tablet: '768px',
+      laptop: '1024px',
+      laptopLarge: '1280px'
+    },
+    colors: {
+      foreground:  "#242129",
+      background: "#36313D",
+      font: 'white',
+      icon: '#AFDBD2',
+      shadow: 'black',
+      tooltip: 'rgba(227, 227, 227, 0.7)',
+      altText: 'black'
+    },
+    fonts: {
+      opensans: "Open sans",
+      systemui: 'system-ui'
+    },  
   }
 };
 
-const Theme = ({ children }) => (
-  <ThemeProvider theme={theme}>{children}</ThemeProvider>
-);
+const Theme = ({ children }) => {
+  const [themeContext, setThemeContext] = useState('dark');
+  return (
+    <ThemeProvider theme={globalTheme[themeContext]}>{children}</ThemeProvider>
+  )
+};
 
 export default Theme;

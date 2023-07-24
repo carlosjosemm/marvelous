@@ -36,8 +36,13 @@ const ComicPage = () => {
     }
 
     useEffect(() => {
-        const comicParam = searcParams.get('comicId');
-        getComicData(comicParam);
+        if (!searcParams.has('comicId')) {
+            setLoading(false)
+            return
+        } else {
+            const comicParam = searcParams.get('comicId');
+            getComicData(comicParam);    
+        }
     }, [searcParams])
 
     if (loading) {
@@ -45,7 +50,7 @@ const ComicPage = () => {
     }
 
     if (!comicData) {
-        <h1>Comic not found. Please check the URL you searched.</h1>
+        return <h1>Comic not found. Please check the URL you searched for.</h1>
     }
 
     return ( 

@@ -36,12 +36,23 @@ const ComicPage = () => {
     }
 
     useEffect(() => {
-        if (!searcParams.has('comicId')) {
+        const hasParam = searcParams?.getAll('comicId').reduce(
+            (acc, param) => {
+                return param != '' ? acc = true : acc;
+            }
+        , false);
+
+        if (!searcParams.has('comicId') || !hasParam) {
             setLoading(false)
             return
         } else {
-            const comicParam = searcParams.get('comicId');
-            getComicData(comicParam);    
+            const comicParam = searcParams.getAll('comicId');
+            for (const param of comicParam) {
+                if (param != '') {
+                    getComicData(param);
+                    break 
+                }
+            }   
         }
     }, [searcParams])
 

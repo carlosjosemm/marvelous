@@ -4,12 +4,13 @@ import Image from 'next/image';
 import logo from '../../public/media/img/marvel-logo.png'
 import 'material-icons/iconfont/outlined.css';
 import 'material-icons/iconfont/filled.css';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useAtom } from 'jotai';
 import { secSearchParamsAtom } from '../../app/atoms';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useMemo } from 'react';
+import { useWindowSize } from '@uidotdev/usehooks';
 
 const StyledHeader = styled.header`
     margin: 0;
@@ -72,6 +73,11 @@ const StyledHeader = styled.header`
     > .lastDiv {
         margin-right: 3rem;
     }
+    > .advancedSearchIcon {
+        transition: transform 0.5s ease-in-out;
+        cursor: pointer;
+        user-select: none;
+    }
 `
 const VertDivider = styled.div`
     border-left: 1px solid lightgray; 
@@ -85,6 +91,7 @@ const Header = () => {
     const [search, setSearch] = useState('')
     const [searchParams, setSearchParams] = useAtom(secSearchParamsAtom)
     const [isAdvancedSearch, setIsAdvancedSearch] = useState(false)
+    const size = useWindowSize();
     const router = useRouter()
     const path = usePathname()
     const isFavs = useMemo(() => path.startsWith('/favs'), [path])
@@ -136,6 +143,18 @@ const Header = () => {
         router.push(url);
         return
     }
+
+    const flipIcon = useCallback((ev) => {
+        ev.stopPropagation();
+        if (!isAdvancedSearch) {
+            setIsAdvancedSearch(true);
+            ev.target.style.transform = 'rotate(180deg)'
+        } else {
+            setIsAdvancedSearch(false);
+            ev.target.style.transform = 'rotate(0deg)'
+        }
+    }, [isAdvancedSearch])
+    
     return ( 
         <StyledHeader $isAdvancedHeader={isAdvancedSearch}>
             <Image
@@ -153,6 +172,7 @@ const Header = () => {
                 <input data-testid="searchinput" value={search} onChange={handleChange} placeholder='Search heros'/>
                 {isAdvancedSearch && <input data-testid="searchinput2" placeholder='Search comics'/>}
             </form>
+            <span className="material-icons-outlined advancedSearchIcon" data-testid="" onClick={flipIcon}>{size.width <= 640 ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}</span>
             <Link href="/favs">
                 <span className="material-icons-outlined favicon" data-testid="favicon">{isFavs ? 'star' : 'star_border'}</span>
             </Link>

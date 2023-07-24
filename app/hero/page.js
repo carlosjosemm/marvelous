@@ -5,6 +5,7 @@ import HeroContainer from '../../components/Hero/HeroContainer';
 import HeroContent from '../../components/Hero/HeroContent';
 import HeroInfo from '../../components/Hero/HeroInfo';
 import HeroThumbnail from '../../components/Hero/HeroThumbnail';
+import Message from '../../components/Generic/Message';
 
 const HeroPage = ({params}) => {
     const [heroData, setHeroData] = useState(null);
@@ -54,10 +55,10 @@ const HeroPage = ({params}) => {
     , [])
 
     if (loading) {
-        return <h2>Loading Hero...</h2>
+        return <Message><h2>Loading Hero...</h2></Message>
     }
     if (error) {
-        return error.message
+        return <Message>{error.message}</Message>
     }
     return ( 
         <HeroContainer>

@@ -6,6 +6,7 @@ import ComicThumbnail from "../../components/Comic/ComicThumbnail";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import Message from "../../components/Generic/Message";
 
 
 const ComicPage = () => {
@@ -24,7 +25,6 @@ const ComicPage = () => {
                 }
             }
         );
-        console.log(comicRes);
         setComicData(
             () => {
             if (comicRes.data.data.results.length > 0) {
@@ -46,7 +46,7 @@ const ComicPage = () => {
     }, [searcParams])
 
     if (loading) {
-        return <h1>Loading comic info...</h1>
+        return <Message><h1>Loading comic info...</h1></Message>
     }
 
     if (!comicData) {

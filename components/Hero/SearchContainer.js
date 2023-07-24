@@ -10,8 +10,8 @@ const SearchContainer = ({content}) => {
     return ( 
             <StyledSearchContainer>
                 {
-                content.map((row) => {
-                    return  <ResultsContainer contentRow={row}/>  
+                content.map((row, index) => {
+                    return  <ResultsContainer contentRow={row} key={index*1000*Math.random()}/>  
                 })
             }
             </StyledSearchContainer>

@@ -3,6 +3,7 @@ import { useState } from "react";
 import storageAvailable from "../../util/checkStorageAvailability";
 import { useEffect } from "react";
 import FavsContainer from "../../components/Hero/FavsContainer";
+import Message from "../../components/Generic/Message";
 
 const FavsPage = () => {
     const [content, setContent] = useState(null);
@@ -41,16 +42,16 @@ const FavsPage = () => {
 
     if (loading) {
         return (
-            <h2>Loading favorite searches...</h2>
+            <Message><h2>Loading favorite searches...</h2></Message>
         )
     }
 
     if (!content) {
         return (
-            <>
+            <Message>
             <h2>No favorite searches found.</h2>
             <h3>You can add new searches here by using the star symbol on any hero.</h3>
-            </>
+            </Message>
         )
     }
     return ( 

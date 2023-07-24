@@ -201,7 +201,6 @@ const Header = () => {
 
     const flipIcon = useCallback((ev) => {
         ev.stopPropagation();
-        console.log(ev.target);
         if (!isAdvancedSearch) {
             setIsAdvancedSearch(true);
             ev.target.style.transform = 'rotate(180deg)'

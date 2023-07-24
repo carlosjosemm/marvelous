@@ -10,6 +10,19 @@ import styled from "styled-components";
     > p {
         margin-top: 2rem;
     }
+    @media only screen and (max-width: ${props => props.theme.breakpoints.mobileLarge}) {
+        > h4 {
+            margin-top: 0ch;
+            margin-bottom: 0ch;
+        }
+        > h2 {
+            font-size: 1.2rem;
+        }
+        > p {
+            margin-top: 1rem;
+        }
+    }
+
  `
  const ComicInfo = ({comicData}) => {
     // getting the published date from the comic data

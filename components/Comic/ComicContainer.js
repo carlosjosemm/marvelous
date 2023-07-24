@@ -10,5 +10,8 @@ const ComicContainer = styled.section`
     display: grid;
     grid-template-columns: auto 1fr;
     color: ${props => props.theme.colors.font};
+    @media only screen and (max-width: ${props => props.theme.breakpoints.mobileLarge}) {
+        grid-template-columns: auto;
+    }
 `
 export default ComicContainer

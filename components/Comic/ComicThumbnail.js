@@ -11,10 +11,12 @@ const ComicThumbnail = styled.img`
         max-width: 280px;
     }
     @media only screen and (max-width: ${props => props.theme.breakpoints.mobileLarge}) {
-        max-width: 200px;
+        max-width: 180px;
+        margin: 0 auto;
     }
     @media only screen and (max-width: ${props => props.theme.breakpoints.mobileSmall}) {
-        max-width: 180px;
+        max-width: 160px;
+        margin: 0 auto;
     }
 `
 export default ComicThumbnail

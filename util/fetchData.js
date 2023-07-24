@@ -28,7 +28,7 @@ export const fetchData = async (heroParam, comicParam) => {
                 params: {
                     apikey: process.env.NEXT_PUBLIC_API_PUBLICKEY,
                     nameStartsWith: heroParam,
-                    limit: 16,
+                    limit: 30,
                     orderBy: 'name', // to be improved: let user select the ordering criteria
                 }
             }

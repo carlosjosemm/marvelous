@@ -17,7 +17,7 @@ const StyledHeader = styled.header`
     top: 0;
     left: 0;
     width: 100%;
-    max-height: 4rem;
+    max-height: 5rem;
     min-height: 4rem;
     background-color: white; /* theme */
     display: flex;
@@ -38,15 +38,33 @@ const StyledHeader = styled.header`
     }
     > form {
         flex: 1 1 auto;
-        
+        display: flex;
+        justify-content: stretch;
+        ${(props) => props.$isAdvancedHeader ? 'align-self: flex-start;' : ''}
+        ${(props) => props.$isAdvancedHeader ? 'height: 4rem;' : ''}
+        ${(props) => props.$isAdvancedHeader ? '' : ''}
+    }
+    @media only screen and (max-width: ${props => props.theme.breakpoints.mobileLarge}) {
+        > form {
+            ${(props) => props.$isAdvancedHeader ? 'flex-direction: column;' : ''} 
+            ${(props) => props.$isAdvancedHeader ? 'max-height: 7rem;' : ''}
+            ${(props) => props.$isAdvancedHeader ? 'height: 7rem;' : ''}
+        }
     }
     > form > input {
         padding-left: 1rem;
         width: 100%;
         border: 0px solid white;
         border-radius: 5px;
-        height: 1.5rem;
+        height: 4rem;
         font-size: 110%;
+        line-height: 3.5rem;
+    }
+    > form input:not(:first-child) {
+        
+    }
+    > form input:first-child {
+        width: 100%;
     }
     > form > input:focus-visible {
         outline: 0px;
@@ -66,6 +84,7 @@ const VertDivider = styled.div`
 const Header = () => {
     const [search, setSearch] = useState('')
     const [searchParams, setSearchParams] = useAtom(secSearchParamsAtom)
+    const [isAdvancedSearch, setIsAdvancedSearch] = useState(false)
     const router = useRouter()
     const path = usePathname()
     const isFavs = useMemo(() => path.startsWith('/favs'), [path])
@@ -118,12 +137,12 @@ const Header = () => {
         return
     }
     return ( 
-        <StyledHeader>
+        <StyledHeader $isAdvancedHeader={isAdvancedSearch}>
             <Image
                 data-testid="logo" 
                 src={logo} 
                 alt='Marvel logo' 
-                height={57}
+                height={window.innerWidth < 300 ? 30 : 57}
                 placeholder='blur' 
                 quality={100}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 33vw"
@@ -131,7 +150,8 @@ const Header = () => {
             <VertDivider data-testid="divider" />
             <span className="material-icons-outlined searchicon" data-testid="searchicon">search</span>
             <form onSubmit={handleSubmit}>
-            <input data-testid="searchinput" value={search} onChange={handleChange} placeholder='Search'/>
+                <input data-testid="searchinput" value={search} onChange={handleChange} placeholder='Search heros'/>
+                {isAdvancedSearch && <input data-testid="searchinput2" placeholder='Search comics'/>}
             </form>
             <Link href="/favs">
                 <span className="material-icons-outlined favicon" data-testid="favicon">{isFavs ? 'star' : 'star_border'}</span>

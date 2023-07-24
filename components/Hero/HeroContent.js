@@ -16,32 +16,32 @@ import ComicPreview from "../Comic/ComicPreview";
         margin-bottom: 0;
         margin-left: 1ch;
     }
+    @media only screen and (max-width: ${props => props.theme.breakpoints.laptop}) {
+        grid-template-columns: repeat(4, 1fr);
+        > h3 {
+            grid-column: span 4;
+        }
+    }
+    @media only screen and (max-width: ${props => props.theme.breakpoints.tablet}) {
+        grid-template-columns: repeat(4, 1fr);
+        > h3 {
+            grid-column: span 4;
+        }
+    }
     @media only screen and (max-width: ${props => props.theme.breakpoints.mobileLarge}) {
         grid-template-columns: repeat(2, 1fr);
         > h3 {
-        grid-column: span 2;
-    }
-    }
-    @media only screen and (max-width: ${props => props.theme.breakpoints.tablet}) {
-        grid-template-columns: repeat(3, 1fr);
-        > h3 {
-        grid-column: span 3;
-    }
-    }
-    @media only screen and (max-width: ${props => props.theme.breakpoints.laptop}) {
-        grid-template-columns: repeat(3, 1fr);
-        > h3 {
-        grid-column: span 3;
-    }
+            grid-column: span 2;
+        }
     }
  `
  const HeroContent = ({comicsData, heroName}) => {
     // limit the visible comics to 10
-    const finalComicList = comicsData.slice(0, 10)
+    const finalComicList = comicsData.slice(0, 20)
     
     return ( 
         <HeroContentStyled>
-            <h3>Latest comics from {heroName}</h3>
+            {comicsData.length < 1 && <h3>Latest comics from {heroName}</h3>}
             {finalComicList.length > 0 &&
                 finalComicList.map((comic) => {
                     return (

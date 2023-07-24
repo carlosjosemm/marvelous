@@ -11,6 +11,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { useWindowSize } from '@uidotdev/usehooks';
+import Tooltip from './Tooltip';
 
 const StyledHeader = styled.header`
     margin: 0;
@@ -73,7 +74,7 @@ const StyledHeader = styled.header`
     > .lastDiv {
         margin-right: 3rem;
     }
-    > .advancedSearchIcon {
+    .advancedSearchIcon {
         transition: transform 0.5s ease-in-out;
         cursor: pointer;
         user-select: none;
@@ -98,7 +99,7 @@ const Header = () => {
     const router = useRouter()
     const path = usePathname()
     const isFavs = useMemo(() => path.startsWith('/favs'), [path])
-
+    const tooltipContent = <p>Advanced Search</p>;
     const handleChange = (ev) => {
         // const value = ev.target.value;
         // setSearch((prev) => value);
@@ -197,6 +198,7 @@ const Header = () => {
 
     const flipIcon = useCallback((ev) => {
         ev.stopPropagation();
+        console.log(ev.target);
         if (!isAdvancedSearch) {
             setIsAdvancedSearch(true);
             ev.target.style.transform = 'rotate(180deg)'
@@ -219,6 +221,9 @@ const Header = () => {
              />
             <VertDivider data-testid="divider" />
             <span className="material-icons-outlined searchicon" data-testid="searchicon">search</span>
+            <Tooltip tooltipContent={tooltipContent} position='bottom'>
+                <span className="material-icons-outlined advancedSearchIcon" data-testid="" onClick={flipIcon}>{size.width <= 640 ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}</span>
+            </Tooltip>
             <form onSubmit={handleSubmit}>
                 <input 
                     data-testid="searchinput" 
@@ -238,7 +243,6 @@ const Header = () => {
                 }
                 <input type="submit" value="submit" />
             </form>
-            <span className="material-icons-outlined advancedSearchIcon" data-testid="" onClick={flipIcon}>{size.width <= 640 ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}</span>
             <Link href="/favs">
                 <span className="material-icons-outlined favicon" data-testid="favicon">{isFavs ? 'star' : 'star_border'}</span>
             </Link>

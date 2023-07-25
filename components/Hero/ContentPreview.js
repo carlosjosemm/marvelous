@@ -53,7 +53,13 @@ const StyledHeroPreview = styled.div`
         text-shadow: 0 0 5px black, 0 0 5px black;
         background: linear-gradient(transparent, black 90%);
     }
-    overflow: hidden; 
+    overflow: hidden;
+    @media only screen and (max-width: ${props => props.theme.breakpoints.mobileLarge}) {
+        height: 240px;
+        img {
+            height: 240px;
+        }
+    }
 `
 /** 
  * @typedef {Object} props

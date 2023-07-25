@@ -48,13 +48,6 @@ const StyledHeader = styled.header`
         ${(props) => props.$isAdvancedHeader ? 'height: 4rem;' : ''}
         ${(props) => props.$isAdvancedHeader ? '' : ''}
     }
-    @media only screen and (max-width: ${props => props.theme.breakpoints.mobileLarge}) {
-        > form {
-            ${(props) => props.$isAdvancedHeader ? 'flex-direction: column;' : ''} 
-            ${(props) => props.$isAdvancedHeader ? 'max-height: 7rem;' : ''}
-            ${(props) => props.$isAdvancedHeader ? 'height: 7rem;' : ''}
-        }
-    }
     > form > input {
         padding-left: 1rem;
         width: 100%;
@@ -65,9 +58,6 @@ const StyledHeader = styled.header`
         line-height: 3.5rem;
         background-color: transparent;
         color: ${props => props.theme.colors.font};
-    }
-    > form input:not(:first-child) {
-        
     }
     > form input:first-child {
         width: 100%;
@@ -85,6 +75,16 @@ const StyledHeader = styled.header`
     }
     > form input[type="submit"] {
         display: none;
+    }
+    @media only screen and (max-width: ${props => props.theme.breakpoints.mobileLarge}) {
+        > form {
+            ${(props) => props.$isAdvancedHeader ? 'flex-direction: column;' : ''} 
+            ${(props) => props.$isAdvancedHeader ? 'max-height: 7rem;' : ''}
+            ${(props) => props.$isAdvancedHeader ? 'height: 7rem;' : ''}
+        }
+        > form input {
+            background-color: ${props => props.$isAdvancedHeader ? props.theme.colors.foreground : 'transparent'};
+        }
     }
 `
 const VertDivider = styled.div`

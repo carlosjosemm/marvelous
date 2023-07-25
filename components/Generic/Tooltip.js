@@ -36,6 +36,12 @@ const StyledTooltipWrapper = styled.span`
          border-color: transparent transparent ${props => props.theme.colors.tooltip} ${props => props.theme.colors.tooltip};
         }
    }
+   @media only screen and (max-width: ${props => props.theme.breakpoints.tablet}) {
+        & ${StyledTooltipTrigger}:hover + ${StyledTooltipContent} {
+            visibility: hidden;
+        }
+    }
+
 `
 
 const Tooltip = ({children, tooltipContent, position}) => {

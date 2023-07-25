@@ -13,7 +13,7 @@ const globalTheme = {
       laptopLarge: '1280px'
     },
     colors: {
-      foregroud:  "#FFFFFF",
+      foreground:  "#FFFFFF",
       background: "#F7F8FA",
       font: '#3E3E3E',
       icon: 'grey',

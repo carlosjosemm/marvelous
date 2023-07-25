@@ -46,7 +46,7 @@ const StyledContentPreview = styled.div`
 `
 
 const ComicPreview = ({comicData}) => {
-    const thumbnailURL = `${comicData.thumbnail.path}.${comicData.thumbnail.extension}`
+    const thumbnailURL = `${comicData.thumbnail.path.replace('http:', 'https:')}.${comicData.thumbnail.extension}`
     let href = '';
     for (const url of comicData.urls) {
         url.type == 'detail' ? href = url.url : null;

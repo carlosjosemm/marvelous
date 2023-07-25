@@ -62,7 +62,7 @@ const HeroPage = () => {
     }
     return ( 
         <HeroContainer>
-            <HeroThumbnail src={`${heroData.thumbnail.path}.${heroData.thumbnail.extension}`} />
+            <HeroThumbnail src={`${heroData.thumbnail.path.replace('http:', 'https:')}.${heroData.thumbnail.extension}`} />
             <HeroInfo herodata={heroData}/>
             <HeroContent comicsData={comicsData} heroName={heroData.name} />
         </HeroContainer>

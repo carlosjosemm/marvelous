@@ -66,7 +66,7 @@ const ComicPage = () => {
 
     return ( 
         <ComicContainer>
-            <ComicThumbnail src={`${comicData.thumbnail.path}.${comicData.thumbnail.extension}`} />
+            <ComicThumbnail src={`${comicData.thumbnail.path.replace('http:', 'https:')}.${comicData.thumbnail.extension}`} />
             <ComicInfo comicData={comicData}/>
         </ComicContainer>
      );

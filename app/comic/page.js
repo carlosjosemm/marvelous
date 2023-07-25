@@ -16,7 +16,7 @@ const ComicPage = () => {
 
 
     const getComicData = async (comicId) => {
-        const comicBaseURL = 'http://gateway.marvel.com/v1/public/comics/'
+        const comicBaseURL = 'https://gateway.marvel.com/v1/public/comics/'
         const comicRes = await axios.get(
             comicBaseURL + comicId,
             {

@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export const fetchData = async (heroParam, comicParam) => {
-    const heroBaseURL = 'http://gateway.marvel.com/v1/public/characters'
-    const comicBaseURL = 'http://gateway.marvel.com/v1/public/comics'
+    const heroBaseURL = 'https://gateway.marvel.com/v1/public/characters'
+    const comicBaseURL = 'https://gateway.marvel.com/v1/public/comics'
     // getting all matching heroes
     let heroRes,
         comicRes,

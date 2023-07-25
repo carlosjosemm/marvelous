@@ -99,7 +99,7 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
                 })
             );
         } else {
-            const heroBaseURL = 'http://gateway.marvel.com/v1/public/characters'
+            const heroBaseURL = 'https://gateway.marvel.com/v1/public/characters'
             comicsSearches = await axios.get(
                 `${heroBaseURL}/${hero.id}/comics`,
                 {

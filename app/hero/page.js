@@ -13,7 +13,7 @@ const HeroPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const apiBaseURL = 'http://gateway.marvel.com/v1/public/characters'
+    const apiBaseURL = 'https://gateway.marvel.com/v1/public/characters'
 
     const handleApi = useCallback(async () => {
         try {

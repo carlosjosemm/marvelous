@@ -1,3 +1,4 @@
+'use client'
 import styled from 'styled-components'
 import Image from 'next/image';
 // @ts-ignore
@@ -216,7 +217,7 @@ const Header = () => {
                 data-testid="logo" 
                 src={logo} 
                 alt='Marvel logo' 
-                height={window.innerWidth < 300 ? 30 : 57}
+                height={size.width < 300 ? 30 : 57}
                 placeholder='blur' 
                 quality={100}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 33vw"

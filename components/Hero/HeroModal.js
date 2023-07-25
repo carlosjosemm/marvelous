@@ -144,7 +144,7 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
         modalBody = comicList.map((comic, index) => {
             return (
                 <ModalItem key={index*1000*Math.random()}>
-                    <img src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`} />
+                    <img src={`${comic.thumbnail.path.replace('http:', 'https:')}.${comic.thumbnail.extension}`} />
                     <div>
                         <h4>{comic.title}</h4>
                         <p>{comic.description}</p>

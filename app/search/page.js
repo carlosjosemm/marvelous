@@ -1,5 +1,6 @@
 'use client'
 import Message from "../../components/Generic/Message";
+import Spinner from "../../components/Generic/Spinner";
 import SearchContainer from "../../components/Hero/SearchContainer";
 import useFetchSearchData from "../../hooks/useFetchSearchData";
 
@@ -7,7 +8,11 @@ const SearchPage = () => {
     const [content, loading, error] = useFetchSearchData()
     
     if (loading) {
-        return <Message><h1>Loading search results...</h1></Message>
+        return (
+            <Spinner>
+                <Message><h1>Loading search results...</h1></Message>
+            </Spinner>
+        )
     }
 
     if (error) {

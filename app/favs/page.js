@@ -4,6 +4,7 @@ import storageAvailable from "../../util/checkStorageAvailability";
 import { useEffect } from "react";
 import FavsContainer from "../../components/Hero/FavsContainer";
 import Message from "../../components/Generic/Message";
+import Spinner from "../../components/Generic/Spinner";
 
 const FavsPage = () => {
     const [content, setContent] = useState(null);
@@ -42,7 +43,9 @@ const FavsPage = () => {
 
     if (loading) {
         return (
-            <Message><h2>Loading favorite searches...</h2></Message>
+            <Spinner>
+                <Message><h2>Loading favorite searches...</h2></Message>
+            </Spinner>
         )
     }
 

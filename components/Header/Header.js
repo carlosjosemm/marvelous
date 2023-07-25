@@ -12,7 +12,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { useWindowSize } from '@uidotdev/usehooks';
-import Tooltip from './Tooltip';
+import Tooltip from '../Generic/Tooltip';
 
 const StyledHeader = styled.header`
     margin: 0;
@@ -115,7 +115,6 @@ const Header = () => {
             [name]: value,
             };
         });
-    
     }
 
     const handleSubmit = (ev) => {
@@ -213,7 +212,7 @@ const Header = () => {
     
     return ( 
         <StyledHeader $isAdvancedHeader={isAdvancedSearch}>
-            <Image
+            <Link href='/hero'><Image
                 data-testid="logo" 
                 src={logo} 
                 alt='Marvel logo' 
@@ -222,6 +221,7 @@ const Header = () => {
                 quality={100}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 33vw"
              />
+             </Link>
             <VertDivider data-testid="divider" />
             <span className="material-icons-outlined searchicon" data-testid="searchicon">search</span>
             <Tooltip tooltipContent={tooltipContent} position='bottom'>

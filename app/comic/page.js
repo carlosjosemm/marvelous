@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import Message from "../../components/Generic/Message";
+import Spinner from "../../components/Generic/Spinner";
 
 
 const ComicPage = () => {
@@ -57,7 +58,11 @@ const ComicPage = () => {
     }, [searcParams])
 
     if (loading) {
-        return <Message><h1>Loading comic info...</h1></Message>
+        return (
+            <Spinner>
+                <Message><h1>Loading comic info...</h1></Message>
+            </Spinner>
+        )
     }
 
     if (!comicData) {

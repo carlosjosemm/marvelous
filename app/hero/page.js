@@ -6,6 +6,7 @@ import HeroContent from '../../components/Hero/HeroContent';
 import HeroInfo from '../../components/Hero/HeroInfo';
 import HeroThumbnail from '../../components/Hero/HeroThumbnail';
 import Message from '../../components/Generic/Message';
+import Spinner from '../../components/Generic/Spinner';
 
 const HeroPage = () => {
     const [heroData, setHeroData] = useState(null);
@@ -55,7 +56,11 @@ const HeroPage = () => {
     , [])
 
     if (loading) {
-        return <Message><h2>Loading Hero...</h2></Message>
+        return (
+            <Spinner>
+                <Message><h2>Loading Hero...</h2></Message>
+            </Spinner>
+        )
     }
     if (error) {
         return <Message><h2>Error: {error.message}</h2></Message>

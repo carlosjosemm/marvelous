@@ -214,7 +214,7 @@ const ContentPreview = (/** @type {props}*/ {contentData, secSearchParam}) => {
                 >
                     {isFav? 'star' : 'star_border'}
                 </span>
-                <img src={`${contentData.thumbnail.path}.${contentData.thumbnail.extension}`} style={{objectFit: 'cover'}}/>
+                <img src={`${contentData.thumbnail.path.replace('http:', 'https:')}.${contentData.thumbnail.extension}`} style={{objectFit: 'cover'}}/>
                 <div>
                     <p>{contentData.name}</p>
                 </div>

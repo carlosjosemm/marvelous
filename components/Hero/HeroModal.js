@@ -149,11 +149,17 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
         // case when comics were found for the specified criteria
         modalBody = comicList.map((comic, index) => {
             const url = `${comic.thumbnail.path.replace('http:', 'https:')}.${comic.thumbnail.extension}`
+            let href = '';
+            for (const url of comic.urls) {
+                url.type == 'detail' ? href = url.url : null;
+            }
             return (
                 <ModalItem key={index*1000*Math.random()}>
                     <img src={url == 'https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg' ? fallbackImg.src : url} />
                     <div>
-                        <h4>{comic.title}</h4>
+                        <a href={href} target="_blank">
+                            <h4>{comic.title}</h4>
+                        </a>
                         <p>{comic.description}</p>
                     </div>
                 </ModalItem>

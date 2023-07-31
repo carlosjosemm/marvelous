@@ -206,7 +206,7 @@ const ContentPreview = (/** @type {props}*/ {contentData, secSearchParam}) => {
     }, [contentData, secSearchParam, isFav])
 
     return ( 
-        <a onClick={handleClick} >
+        <a tabIndex={0} onClick={handleClick} onKeyDown={(e) => e.key == 'Enter' ? handleClick() : null}>
             <HeroModal 
                 show={showModal} 
                     onClose={handleClose} 
@@ -214,9 +214,11 @@ const ContentPreview = (/** @type {props}*/ {contentData, secSearchParam}) => {
                     explicitSearchParam={isFavs ? {comics: secSearchParam} : undefined}
             />
             <StyledHeroPreview>
-                <span 
+                <span
+                    tabIndex={0}
                     className="material-icons-outlined favicon" 
                     onClick={(ev) => handleFav(contentData, secSearchParam, ev)}
+                    onKeyDown={(e) => e.key == 'Enter' ? handleFav(contentData, secSearchParam, e) : null}
                 >
                     {isFav? 'star' : 'star_border'}
                 </span>

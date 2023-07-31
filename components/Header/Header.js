@@ -33,7 +33,8 @@ const StyledHeader = styled.header`
         user-select: none;
     }
     .favicon {
-        padding: 0 2rem 0 5px;
+        padding: 0 5px 0 5px;
+        margin-right: 1.5rem;
         cursor: pointer;
         user-select: none;
     }
@@ -225,7 +226,7 @@ const Header = () => {
             <VertDivider data-testid="divider" />
             <span className="material-icons-outlined searchicon" data-testid="searchicon">search</span>
             <Tooltip tooltipContent={tooltipContent} position='bottom'>
-                <span className="material-icons-outlined advancedSearchIcon" data-testid="" onClick={flipIcon}>{size.width <= 640 ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}</span>
+                <span tabIndex={0} className="material-icons-outlined advancedSearchIcon" data-testid="" onClick={flipIcon}>{size.width <= 640 ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}</span>
             </Tooltip>
             <form onSubmit={handleSubmit}>
                 <input 
@@ -246,8 +247,8 @@ const Header = () => {
                 }
                 <input type="submit" value="submit" />
             </form>
-            <Link href="/favs">
-                <span className="material-icons-outlined favicon" data-testid="favicon">{isFavs ? 'star' : 'star_border'}</span>
+            <Link href="/favs" tabIndex={-1}>
+                <span tabIndex={0} className="material-icons-outlined favicon" data-testid="favicon">{isFavs ? 'star' : 'star_border'}</span>
             </Link>
         </StyledHeader>
      );

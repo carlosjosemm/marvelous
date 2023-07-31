@@ -25,7 +25,7 @@ const StyledFooter = styled.footer`
 const StyledButton = styled.button`
     margin: 0.5rem auto 0 auto;
     text-align: center;
-    border: 2px solid ${props => props.theme.colors.font};
+    border: 1px solid ${props => props.theme.colors.font};
     color: ${props => props.theme.colors.font};
     border-radius: 5px;
     padding: 5px 7px;

@@ -7,6 +7,7 @@ import HeroInfo from '../../components/Hero/HeroInfo';
 import HeroThumbnail from '../../components/Hero/HeroThumbnail';
 import Message from '../../components/Generic/Message';
 import Spinner from '../../components/Generic/Spinner';
+import fallbackImg from '../../public/media/img/marvelbg-wider.jpg'
 
 const HeroPage = () => {
     const [heroData, setHeroData] = useState(null);
@@ -65,9 +66,18 @@ const HeroPage = () => {
     if (error) {
         return <Message><h2>Error: {error.message}</h2></Message>
     }
+
+    const heroThumbnail = `${heroData.thumbnail.path.replace('http:', 'https:')}.${heroData.thumbnail.extension}`
+    let url = ''
+    if (heroThumbnail == 'https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg' || heroThumbnail == 'https://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif') {
+        url = fallbackImg.src
+    } else {
+        url = heroThumbnail
+    }
+
     return ( 
         <HeroContainer>
-            <HeroThumbnail src={`${heroData.thumbnail.path.replace('http:', 'https:')}.${heroData.thumbnail.extension}`} />
+            <HeroThumbnail src={url} />
             <HeroInfo herodata={heroData}/>
             <HeroContent comicsData={comicsData} heroName={heroData.name} />
         </HeroContainer>

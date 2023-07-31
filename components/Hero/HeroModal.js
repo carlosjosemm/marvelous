@@ -6,6 +6,7 @@ import { fetchData } from "../../util/fetchData";
 import { useEffect } from "react";
 import 'material-icons/iconfont/outlined.css';
 import axios from "axios";
+import fallbackImg from '../../public/media/img/marvelbg.jpg.jpg'
 
 const StyledModal = styled.div`
     z-index: 1000;
@@ -70,7 +71,12 @@ const ModalItem = styled.div`
     align-items: center;
     margin-bottom: 2ch;
     > img {
+        height: 6rem;
         max-height: 6rem;
+        background-color: lightgray;
+        width: 3.94rem;
+        max-width: 3.94rem;
+        object-fit: cover;
     }
     h4 {
         margin-top: 0.5rem;
@@ -142,9 +148,10 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
     } else if (comicList.length > 0) {
         // case when comics were found for the specified criteria
         modalBody = comicList.map((comic, index) => {
+            const url = `${comic.thumbnail.path.replace('http:', 'https:')}.${comic.thumbnail.extension}`
             return (
                 <ModalItem key={index*1000*Math.random()}>
-                    <img src={`${comic.thumbnail.path.replace('http:', 'https:')}.${comic.thumbnail.extension}`} />
+                    <img src={url == 'https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg' ? fallbackImg.src : url} />
                     <div>
                         <h4>{comic.title}</h4>
                         <p>{comic.description}</p>
@@ -169,7 +176,7 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
                 <ModalHeader>
                     <button onClick={onClose}><span className="material-icons-outlined">close</span></button>
                     <h1>{hero.name}</h1>
-                    <p>{searchParams.comics ? `Showing results for ${searchParams.comics.join('" & "')}` : 'Showing latest Comics for this hero'}</p>
+                    <p>{searchParams.comics?.length > 0 ? `Showing results for "${searchParams.comics.join('" & "')}"` : 'Showing latest Comics for this hero'}</p>
                 </ModalHeader> 
                 <ModalBody>
                     {modalBody}

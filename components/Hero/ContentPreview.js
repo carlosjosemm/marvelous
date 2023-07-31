@@ -70,6 +70,9 @@ const UnstyledWrapper = styled.div`
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
+    &:focus img {
+        border: 3px solid ${props => props.theme.colors.font};
+    }
 `
 /** 
  * @typedef {Object} props

@@ -6,6 +6,7 @@ import 'material-icons/iconfont/outlined.css';
 import storageAvailable from "../../util/checkStorageAvailability";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import fallbackImg from '../../public/media/img/marvelbg-wider.jpg'
 
 const StyledHeroPreview = styled.div`
     margin: 1ch;
@@ -205,6 +206,15 @@ const ContentPreview = (/** @type {props}*/ {contentData, secSearchParam}) => {
         }
     }, [contentData, secSearchParam, isFav])
 
+    const thumbnail = `${contentData.thumbnail.path.replace('http:', 'https:')}.${contentData.thumbnail.extension}`
+    let url = ''
+    if (thumbnail == 'https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg' || thumbnail == 'https://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif') {
+        url = fallbackImg.src
+    } else {
+        url = thumbnail
+    }
+
+
     return ( 
         <a tabIndex={0} onClick={handleClick} onKeyDown={(e) => e.key == 'Enter' ? handleClick() : null}>
             <HeroModal 
@@ -222,7 +232,7 @@ const ContentPreview = (/** @type {props}*/ {contentData, secSearchParam}) => {
                 >
                     {isFav? 'star' : 'star_border'}
                 </span>
-                <img src={`${contentData.thumbnail.path.replace('http:', 'https:')}.${contentData.thumbnail.extension}`} style={{objectFit: 'cover'}}/>
+                <img src={url} style={{objectFit: 'cover'}}/>
                 <div>
                     <p>{contentData.name}</p>
                 </div>

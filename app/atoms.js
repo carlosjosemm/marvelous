@@ -1,8 +1,8 @@
-import { atom } from 'jotai'
+import { atom } from "jotai";
 
 export const secSearchParamsAtom = atom({
-    heroes: [],
-    comics: [],
-})
+  heroes: [],
+  comics: [],
+});
 
-export const themeContextAtom = atom('light')
+export const themeContextAtom = atom("light");

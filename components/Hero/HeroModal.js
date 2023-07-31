@@ -161,13 +161,13 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
         modalBody = (
             <> 
                 <h3>No Comics found for this hero.</h3>
-                <p>Suggestions:
+                <section>Suggestions:
                 <ul>
                     <li>Make sure that all words for hero and/or comics are spelled correctly.</li>
                     <li>Try different comic-related keywords.</li>
                     <li> Try a different version of this hero.</li>
                 </ul>
-                </p>
+                </section>
             </>
         )
     } else if (comicList.length > 0) {

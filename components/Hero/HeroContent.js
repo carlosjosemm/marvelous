@@ -41,7 +41,7 @@ import ComicPreview from "../Comic/ComicPreview";
     
     return ( 
         <HeroContentStyled>
-            {comicsData.length < 1 && <h3>Latest comics from {heroName}</h3>}
+            {comicsData.length > 1 && <h3>Latest comics from {heroName}</h3>}
             {finalComicList.length > 0 &&
                 finalComicList.map((comic) => {
                     return (

@@ -62,6 +62,15 @@ const StyledHeroPreview = styled.div`
         }
     }
 `
+const UnstyledWrapper = styled.div`
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+`
 /** 
  * @typedef {Object} props
  * @property {string[]} secSearchParam
@@ -216,7 +225,7 @@ const ContentPreview = (/** @type {props}*/ {contentData, secSearchParam}) => {
 
 
     return ( 
-        <a tabIndex={0} onClick={handleClick} onKeyDown={(e) => e.key == 'Enter' ? handleClick() : null}>
+        <UnstyledWrapper tabIndex={0} onClick={handleClick} onKeyDown={(e) => e.key == 'Enter' ? handleClick() : null}>
             <HeroModal 
                 show={showModal} 
                     onClose={handleClose} 
@@ -237,7 +246,7 @@ const ContentPreview = (/** @type {props}*/ {contentData, secSearchParam}) => {
                     <p>{contentData.name}</p>
                 </div>
             </StyledHeroPreview>
-        </a>
+        </UnstyledWrapper>
     );
 }
  

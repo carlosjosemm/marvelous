@@ -19,13 +19,14 @@ const StyledModal = styled.div`
     background-color: rgba(0,0,0,0.7);
     justify-content: center;
     align-items: center;
+    text-align: left;
 `
 const StyledOverlay = styled.section`
     display: flex;
     flex-direction:column;
     background-color: white;
     border: 1px solid black;
-    border-radius: 0.5rem;
+    border-radius: 5px;
     max-height: 70vh;
     margin: auto 1rem;
     background-color: ${props => props.theme.colors.foreground};
@@ -63,6 +64,19 @@ const ModalBody = styled.div`
     max-width: ${props => props.theme.breakpoints.laptop};
     background-color: ${props => props.theme.colors.foreground};
     color: ${props => props.theme.colors.font};
+    margin-bottom: 5px;
+    
+    &::-webkit-scrollbar, ::-webkit-scrollbar {
+        width: 1ch;
+    }
+    &::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb {
+        background-color: darkgray;
+        outline: 0px solid slategrey;
+        border-radius: 5px;
+    }
+    &::-webkit-scrollbar-track, ::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
 `
 const ModalItem = styled.div`
     display: grid;
@@ -144,7 +158,18 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
     let modalBody;
     if (searchParams.comics?.length > 0 && comicList.length == 0) {
         // case when no comics were found for the specified criteria
-        modalBody = <><h3>No Comics found for this hero. Try a different criteria.</h3></>
+        modalBody = (
+            <> 
+                <h3>No Comics found for this hero.</h3>
+                <p>Suggestions:
+                <ul>
+                    <li>Make sure that all words for hero and/or comics are spelled correctly.</li>
+                    <li>Try different comic-related keywords.</li>
+                    <li> Try a different version of this hero.</li>
+                </ul>
+                </p>
+            </>
+        )
     } else if (comicList.length > 0) {
         // case when comics were found for the specified criteria
         modalBody = comicList.map((comic, index) => {
@@ -167,7 +192,7 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
         })
     } else {
         // case when no comics were found
-        modalBody = <h2>No Comics found for this hero.</h2>
+        modalBody = <h4>There are currently no comics available for this hero.</h4>
     }
 
     // modal is closed (hidden)
@@ -182,7 +207,7 @@ const HeroModal = ({show, onClose, hero, explicitSearchParam}) => {
                 <ModalHeader>
                     <button onClick={onClose}><span className="material-icons-outlined">close</span></button>
                     <h1>{hero.name}</h1>
-                    <p>{searchParams.comics?.length > 0 ? `Showing results for "${searchParams.comics.join('" & "')}"` : 'Showing latest Comics for this hero'}</p>
+                    <p>{searchParams.comics?.length > 0 ? `Showing results for "${searchParams.comics.join('" & "')}"` : 'Latest comics for this hero'}</p>
                 </ModalHeader> 
                 <ModalBody>
                     {modalBody}

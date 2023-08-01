@@ -1,5 +1,4 @@
-import { useAtom, useAtomValue } from "jotai";
-import { useState } from "react";
+import { useAtomValue } from "jotai";
 import { ThemeProvider } from "styled-components";
 import { themeContextAtom } from "./atoms";
 

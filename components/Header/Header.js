@@ -6,8 +6,6 @@ import logo from "../../public/media/img/marvel-logo.png";
 import "material-icons/iconfont/outlined.css";
 import "material-icons/iconfont/filled.css";
 import { useCallback, useState } from "react";
-import { useAtom } from "jotai";
-import { secSearchParamsAtom } from "../../app/atoms";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -104,17 +102,14 @@ const VertDivider = styled.div`
 `;
 const Header = () => {
   const [search, setSearch] = useState({ heroInput: "", comicInput: "" });
-  const [searchParams, setSearchParams] = useAtom(secSearchParamsAtom);
   const [isAdvancedSearch, setIsAdvancedSearch] = useState(false);
   const size = useWindowSize();
   const router = useRouter();
   const path = usePathname();
   const isFavs = useMemo(() => path.startsWith("/favs"), [path]);
   const tooltipContent = <p>Advanced Search</p>;
+  
   const handleChange = (ev) => {
-    // const value = ev.target.value;
-    // setSearch((prev) => value);
-
     const { name, value } = ev.target;
     setSearch((prev) => {
       return {

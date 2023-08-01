@@ -27,7 +27,7 @@ If you're a nocturnal creature, try out the **dark theme** by switching it at th
 To deploy this page on vercel front-end cloud, connect your vercel project to your repo and provide it with your Marvel API public key with the variable name "**NEXT_PUBLIC_API_PUBLICKEY**". This must be done in the Vercel page at the moment of setting up a new deployment of the project.
 
 ## Themeing :art:
-If you'd like to quickly change the appearance or look & feel of the page, try modifying the values at the theme object for both **light** and **dark** theme. There you can change the values of colors for many things from text to icons, back- and fore-ground!
+If you'd like to quickly change the appearance or look & feel of the page, try modifying the values at the **[theme object](/app/Theme.js)** for both **light** and **dark** theme. There you can change the values of colors for many things from text to icons, back- and fore-ground!
 
 ## Testing :construction:
 Testing of components is a work on progress... :hammer: :wrench:
